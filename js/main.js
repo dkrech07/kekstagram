@@ -178,4 +178,21 @@ var drawBigPicture = function (number) {
 };
 
 drawPhotos();
-drawBigPicture(0);
+// drawBigPicture(0);
+
+var uploadButton = document.querySelector('#upload-file');
+var uploadForm = document.querySelector('.img-upload__overlay');
+var closeFormButton = uploadForm.querySelector('.img-upload__cancel');
+
+var removeChangeHandler = function () {
+  uploadForm.classList.add('hidden');
+  closeFormButton.removeEventListener('click', removeChangeHandler);
+  uploadButton.value = null;
+};
+
+var uploadChangeHandler = function () {
+  uploadForm.classList.remove('hidden');
+  closeFormButton.addEventListener('click', removeChangeHandler);
+};
+
+uploadButton.addEventListener('change', uploadChangeHandler);
