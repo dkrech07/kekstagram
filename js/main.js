@@ -6,6 +6,7 @@ var MAX_LENGTH_COMMENT = 2;
 var MIN_LIKES = 15;
 var MAX_LIKES = 200;
 var MAX_COMMENTS = 10;
+var ESC_KEYCODE = 27;
 
 var COMMENTS_LIST = [
   'Всё отлично!',
@@ -184,36 +185,50 @@ var uploadButton = document.querySelector('#upload-file');
 var uploadForm = document.querySelector('.img-upload__overlay');
 var closeFormButton = uploadForm.querySelector('.img-upload__cancel');
 var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
+var effectTypeButtons = uploadForm.querySelectorAll('.effects__radio');
 
-var changeEffect = function () {
-  var effectTypeButtons = uploadForm.querySelectorAll('.effects__radio');
+var effectClickHandler = function (evt) {
+  var uploadImage = uploadForm.querySelector('.img-upload__preview img');
+  var target = evt.target;
+  var effect = uploadImage.classList.value;
 
+  if (effect) {
+    uploadImage.classList.remove(effect);
+  }
+  uploadImage.classList.add('effects__preview--' + target.value);
+};
+
+var addEffectHandlers = function () {
   for (var i = 0; i < effectTypeButtons.length; i++) {
-    effectTypeButtons[i].addEventListener('click', function (evt) {
-
-      var uploadImage = uploadForm.querySelector('.img-upload__preview img');
-      var target = evt.target;
-      var effect = uploadImage.classList.value;
-
-      if (effect) {
-        uploadImage.classList.remove(effect);
-      }
-      uploadImage.classList.add('effects__preview--' + target.value);
-    });
+    effectTypeButtons[i].addEventListener('click', effectClickHandler);
   }
 };
 
+var removeEffectHandlers = function () {
+  for (var i = 0; i < effectTypeButtons.length; i++) {
+    effectTypeButtons[i].removeEventListener('click', effectClickHandler);
+  }
+};
+
+var closeFormEscHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    removeChangeHandler();
+  }
+};
 
 var removeChangeHandler = function () {
   uploadForm.classList.add('hidden');
+  removeEffectHandlers();
   closeFormButton.removeEventListener('click', removeChangeHandler);
+  document.removeEventListener('keydown', closeFormEscHandler);
   uploadButton.value = null;
 };
 
 var uploadChangeHandler = function () {
   uploadForm.classList.remove('hidden');
-  changeEffect();
+  addEffectHandlers();
   closeFormButton.addEventListener('click', removeChangeHandler);
+  document.addEventListener('keydown', closeFormEscHandler);
 };
 
 uploadButton.addEventListener('change', uploadChangeHandler);
