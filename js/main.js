@@ -128,10 +128,7 @@ var drawPhotos = function () {
   pictures.appendChild(fragment);
 };
 
-var drawBigPicture = function (number) {
-  bigPicture.classList.remove('hidden');
-  var element = getPhotosArray()[number];
-
+var drawPhotoInformation = function (number, element) {
   var image = bigPicture.querySelector('.big-picture__img img');
   image.src = element.url;
 
@@ -141,6 +138,11 @@ var drawBigPicture = function (number) {
   var commentsCount = bigPicture.querySelector('.comments-count');
   commentsCount.textContent = element.comments.length;
 
+  var descriptionPhoto = bigPicture.querySelector('.social__caption');
+  descriptionPhoto.textContent = element.description;
+};
+
+var drawCommentInformation = function (number, element) {
   var socialComments = bigPicture.querySelector('.social__comments');
   var template = socialComments.querySelector('.social__comment');
   var fragment = document.createDocumentFragment();
@@ -156,18 +158,24 @@ var drawBigPicture = function (number) {
     fragment.appendChild(comment);
   }
   socialComments.appendChild(fragment);
-
-  var descriptionPhoto = bigPicture.querySelector('.social__caption');
-  descriptionPhoto.textContent = element.description;
 };
 
-var hideElements = function () {
+var hideBigPhotoElements = function () {
   var commentsCounter = bigPicture.querySelector('.social__comment-count');
   var commentsLoader = bigPicture.querySelector('.comments-loader');
   commentsCounter.classList.add('visually-hidden');
   commentsLoader.classList.add('visually-hidden');
 };
 
+var drawBigPicture = function (number) {
+  bigPicture.classList.remove('hidden');
+  var element = getPhotosArray()[number];
+
+  drawPhotoInformation(number, element);
+  drawCommentInformation(number, element);
+
+  hideBigPhotoElements();
+};
+
 drawPhotos();
 drawBigPicture(0);
-hideElements();
