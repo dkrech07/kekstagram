@@ -183,6 +183,26 @@ drawPhotos();
 var uploadButton = document.querySelector('#upload-file');
 var uploadForm = document.querySelector('.img-upload__overlay');
 var closeFormButton = uploadForm.querySelector('.img-upload__cancel');
+var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
+
+var changeEffect = function () {
+  var effectTypeButtons = uploadForm.querySelectorAll('.effects__radio');
+
+  for (var i = 0; i < effectTypeButtons.length; i++) {
+    effectTypeButtons[i].addEventListener('click', function (evt) {
+
+      var uploadImage = uploadForm.querySelector('.img-upload__preview img');
+      var target = evt.target;
+      var effect = uploadImage.classList.value;
+
+      if (effect) {
+        uploadImage.classList.remove(effect);
+      }
+      uploadImage.classList.add('effects__preview--' + target.value);
+    });
+  }
+};
+
 
 var removeChangeHandler = function () {
   uploadForm.classList.add('hidden');
@@ -192,7 +212,10 @@ var removeChangeHandler = function () {
 
 var uploadChangeHandler = function () {
   uploadForm.classList.remove('hidden');
+  changeEffect();
   closeFormButton.addEventListener('click', removeChangeHandler);
 };
 
 uploadButton.addEventListener('change', uploadChangeHandler);
+
+// effectLevelPin.addEventListener('mouseup', );
