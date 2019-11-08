@@ -27,6 +27,8 @@ var DESCRIPTION_LIST = [
 
 var NAMES_LIST = ['Татьяна', 'Николай', 'Снежанна', 'Ирина', 'Анжела', 'Игорь', 'Карась'];
 
+var bigPicture = document.querySelector('.big-picture');
+
 var getRandom = function (number) {
   return Math.floor(Math.random() * number);
 };
@@ -127,7 +129,6 @@ var drawPhotos = function () {
 };
 
 var drawBigPicture = function (number) {
-  var bigPicture = document.querySelector('.big-picture');
   bigPicture.classList.remove('hidden');
   var element = getPhotosArray()[number];
 
@@ -154,14 +155,19 @@ var drawBigPicture = function (number) {
     commentMessage.textContent = element.comments[i].message;
     fragment.appendChild(comment);
   }
-
   socialComments.appendChild(fragment);
 
   var descriptionPhoto = bigPicture.querySelector('.social__caption');
   descriptionPhoto.textContent = element.description;
 };
 
+var hideElements = function () {
+  var commentsCounter = bigPicture.querySelector('.social__comment-count');
+  var commentsLoader = bigPicture.querySelector('.comments-loader');
+  commentsCounter.classList.add('visually-hidden');
+  commentsLoader.classList.add('visually-hidden');
+};
 
-console.log(getPhotosArray());
 drawPhotos();
 drawBigPicture(0);
+hideElements();
