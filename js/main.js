@@ -7,6 +7,7 @@ var MIN_LIKES = 15;
 var MAX_LIKES = 200;
 var MAX_COMMENTS = 10;
 var ESC_KEYCODE = 27;
+var MAX_PERCENT_SEPIA = 100;
 
 var COMMENTS_LIST = [
   'Всё отлично!',
@@ -214,19 +215,49 @@ var removeEffectHandlers = function () {
   }
 };
 
-var movePinHandler = function (evt) {
+var changeEffectLevel = function () {
+  var uploadImageEffect = uploadForm.querySelector('.img-upload__preview');
+  var effectButtonActive = uploadForm.querySelector('input[name="effect"]:checked');
+  var effect = effectButtonActive.value;
+
+  if (effect === 'none') {
+    uploadImageEffect.style = null;
+  }
+
+  if (effect === 'chrome') {
+    uploadImageEffect.style = 'filter: grayscale(' + effectLevelValue.value + ');';
+  }
+
+  if (effect === 'sepia') {
+    uploadImageEffect.style = 'filter: sepia(' + effectLevelValue.value + ');';
+  }
+
+  if (effect === 'marvin') {
+    uploadImageEffect.style = 'filter: invert(' + effectLevelValue.value * MAX_PERCENT_SEPIA + '%);';
+  }
+
+  if (effect === 'phobos') {
+    uploadImageEffect.style = 'filter: blur(' + effectLevelValue.value * 100 / 33 + 'px);';
+  }
+
+  if (effect === 'heat') {
+    uploadImageEffect.style = 'filter: brightness(' + effectLevelValue.value * 100 / 33 + ');';
+  }
+console.log(uploadImageEffect);
+  // var uploadImageEffect = uploadForm.querySelector('.img-upload__preview');
+  // uploadImageEffect.style = 'filter: grayscale(' + effectLevel + '%);';
+};
+
+var pinMoveHandler = function (evt) {
   var effectLineWidth = effectLevelLine.offsetWidth;
   var value = evt.offsetX;
 
   effectLevelPin.style = 'left: ' + value + 'px;';
   lineDepth.style = 'width: ' + value + 'px;';
 
-  var effectLevel = Math.round(value / effectLineWidth * 100);
-  effectLevelValue.value = effectLevel;
+  effectLevelValue.value = value / effectLineWidth;
 
-  var uploadImageEffect = uploadForm.querySelector('.img-upload__preview');
-  uploadImageEffect.style = 'filter: grayscale(' + effectLevel + '%);';
-
+  changeEffectLevel();
 };
 
 var closeFormEscHandler = function (evt) {
@@ -238,7 +269,7 @@ var closeFormEscHandler = function (evt) {
 var removeChangeHandler = function () {
   uploadForm.classList.add('hidden');
   removeEffectHandlers();
-  effectLevelLine.removeEventListener('mouseup', movePinHandler);
+  effectLevelLine.removeEventListener('mouseup', pinMoveHandler);
   closeFormButton.removeEventListener('click', removeChangeHandler);
   document.removeEventListener('keydown', closeFormEscHandler);
   uploadButton.value = null;
@@ -247,7 +278,7 @@ var removeChangeHandler = function () {
 var uploadChangeHandler = function () {
   uploadForm.classList.remove('hidden');
   addEffectHandlers();
-  effectLevelLine.addEventListener('mouseup', movePinHandler);
+  effectLevelLine.addEventListener('mouseup', pinMoveHandler);
   closeFormButton.addEventListener('click', removeChangeHandler);
   document.addEventListener('keydown', closeFormEscHandler);
 };
