@@ -186,6 +186,11 @@ var uploadForm = document.querySelector('.img-upload__overlay');
 var closeFormButton = uploadForm.querySelector('.img-upload__cancel');
 var effectTypeButtons = uploadForm.querySelectorAll('.effects__radio');
 
+var effectLevelLine = uploadForm.querySelector('.effect-level__line');
+var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
+var lineDepth = uploadForm.querySelector('.effect-level__depth');
+var effectLevelValue = uploadForm.querySelector('.effect-level__value');
+
 var effectClickHandler = function (evt) {
   var uploadImage = uploadForm.querySelector('.img-upload__preview img');
   var target = evt.target;
@@ -209,11 +214,6 @@ var removeEffectHandlers = function () {
   }
 };
 
-var effectLevelLine = uploadForm.querySelector('.effect-level__line');
-var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
-var lineDepth = uploadForm.querySelector('.effect-level__depth');
-var effectLevelValue = uploadForm.querySelector('.effect-level__value');
-
 var movePinHandler = function (evt) {
   var effectLineWidth = effectLevelLine.offsetWidth;
   var value = evt.offsetX;
@@ -221,10 +221,12 @@ var movePinHandler = function (evt) {
   effectLevelPin.style = 'left: ' + value + 'px;';
   lineDepth.style = 'width: ' + value + 'px;';
 
-  var effectLevel = Math.round(value / effectLineWidth * 100); // ! Округлить до большего значения;
+  var effectLevel = Math.round(value / effectLineWidth * 100);
   effectLevelValue.value = effectLevel;
 
-  console.log(effectLevelValue.value);
+  var uploadImageEffect = uploadForm.querySelector('.img-upload__preview');
+  uploadImageEffect.style = 'filter: grayscale(' + effectLevel + '%);';
+
 };
 
 var closeFormEscHandler = function (evt) {
@@ -236,7 +238,7 @@ var closeFormEscHandler = function (evt) {
 var removeChangeHandler = function () {
   uploadForm.classList.add('hidden');
   removeEffectHandlers();
-  effectLevelPin.removeEventListener('mouseup', movePinHandler);
+  effectLevelLine.removeEventListener('mouseup', movePinHandler);
   closeFormButton.removeEventListener('click', removeChangeHandler);
   document.removeEventListener('keydown', closeFormEscHandler);
   uploadButton.value = null;
@@ -251,5 +253,3 @@ var uploadChangeHandler = function () {
 };
 
 uploadButton.addEventListener('change', uploadChangeHandler);
-
-// effectLevelPin.addEventListener('mouseup', );
