@@ -184,7 +184,6 @@ drawPhotos();
 var uploadButton = document.querySelector('#upload-file');
 var uploadForm = document.querySelector('.img-upload__overlay');
 var closeFormButton = uploadForm.querySelector('.img-upload__cancel');
-var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
 var effectTypeButtons = uploadForm.querySelectorAll('.effects__radio');
 
 var effectClickHandler = function (evt) {
@@ -210,6 +209,24 @@ var removeEffectHandlers = function () {
   }
 };
 
+var effectLevelLine = uploadForm.querySelector('.effect-level__line');
+var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
+var lineDepth = uploadForm.querySelector('.effect-level__depth');
+var effectLevelValue = uploadForm.querySelector('.effect-level__value');
+
+var movePinHandler = function (evt) {
+  var effectLineWidth = effectLevelLine.offsetWidth;
+  var value = evt.offsetX;
+
+  effectLevelPin.style = 'left: ' + value + 'px;';
+  lineDepth.style = 'width: ' + value + 'px;';
+
+  var effectLevel = Math.round(value / effectLineWidth * 100); // ! Округлить до большего значения;
+  effectLevelValue.value = effectLevel;
+
+  console.log(effectLevelValue.value);
+};
+
 var closeFormEscHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     removeChangeHandler();
@@ -219,6 +236,7 @@ var closeFormEscHandler = function (evt) {
 var removeChangeHandler = function () {
   uploadForm.classList.add('hidden');
   removeEffectHandlers();
+  effectLevelPin.removeEventListener('mouseup', movePinHandler);
   closeFormButton.removeEventListener('click', removeChangeHandler);
   document.removeEventListener('keydown', closeFormEscHandler);
   uploadButton.value = null;
@@ -227,6 +245,7 @@ var removeChangeHandler = function () {
 var uploadChangeHandler = function () {
   uploadForm.classList.remove('hidden');
   addEffectHandlers();
+  effectLevelLine.addEventListener('mouseup', movePinHandler);
   closeFormButton.addEventListener('click', removeChangeHandler);
   document.addEventListener('keydown', closeFormEscHandler);
 };
