@@ -10,6 +10,8 @@ var ESC_KEYCODE = 27;
 var MAX_EFFECT_LEVEL = 100;
 var FOBOS_EFFECT_LEVEL = 25;
 var HEAT_EFFECT_LEVEL = 33;
+var MIN_SCALE = 25;
+var MAX_SCALE = 100;
 
 var COMMENTS_LIST = [
   'Всё отлично!',
@@ -271,6 +273,33 @@ var pinMoveHandler = function (evt) {
   changeEffectLevel(effectLevelValue.value);
 };
 
+var scaleControlValue = uploadForm.querySelector('.scale__control--value');
+var scaleControlSmaller = uploadForm.querySelector('.scale__control--smaller');
+var scaleControlBigger = uploadForm.querySelector('.scale__control--bigger');
+
+var changeScale = function (value) {
+  uploadImage.style = 'transform: scale(' + (value / MAX_SCALE) + ');';
+};
+
+scaleControlValue.value = MAX_SCALE;
+var scaleSmallerClickHandler = function () {
+  if (scaleControlValue.value > MIN_SCALE) {
+    scaleControlValue.value = parseInt(scaleControlValue.value, 10) - MIN_SCALE;
+  }
+  changeScale(scaleControlValue.value);
+  console.log('smaller ok');
+  console.log(scaleControlValue.value);
+};
+
+var scaleBiggerClickHandler = function () {
+  if (scaleControlValue.value < MAX_SCALE) {
+    scaleControlValue.value = parseInt(scaleControlValue.value, 10) + MIN_SCALE;
+  }
+  changeScale(scaleControlValue.value);
+  console.log('bigger ok');
+  console.log(scaleControlValue.value);
+};
+
 var closeFormEscHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     removeChangeHandler();
@@ -280,6 +309,8 @@ var closeFormEscHandler = function (evt) {
 var removeChangeHandler = function () {
   uploadForm.classList.add('hidden');
   removeEffectHandlers();
+  scaleControlSmaller.removeEventListener('click', scaleSmallerClickHandler);
+  scaleControlBigger.removeEventListener('click', scaleBiggerClickHandler);
   effectLevelLine.removeEventListener('mouseup', pinMoveHandler);
   closeFormButton.removeEventListener('click', removeChangeHandler);
   document.removeEventListener('keydown', closeFormEscHandler);
@@ -289,6 +320,8 @@ var removeChangeHandler = function () {
 var uploadChangeHandler = function () {
   uploadForm.classList.remove('hidden');
   addEffectHandlers();
+  scaleControlSmaller.addEventListener('click', scaleSmallerClickHandler);
+  scaleControlBigger.addEventListener('click', scaleBiggerClickHandler);
   effectLevelLine.addEventListener('mouseup', pinMoveHandler);
   closeFormButton.addEventListener('click', removeChangeHandler);
   document.addEventListener('keydown', closeFormEscHandler);
