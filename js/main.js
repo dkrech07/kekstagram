@@ -242,30 +242,30 @@ var changeEffectLevel = function (value) {
   }
 
   if (checkedEffect === 'chrome') {
-    uploadImage.style.filter = 'grayscale' + '(' + value + ')';
+    uploadImage.style.filter = 'grayscale' + '(' + value / MAX_EFFECT_LEVEL + ')';
   }
 
   if (checkedEffect === 'sepia') {
-    uploadImage.style.filter = 'sepia' + '(' + value + ')';
+    uploadImage.style.filter = 'sepia' + '(' + value / MAX_EFFECT_LEVEL + ')';
   }
 
   if (checkedEffect === 'marvin') {
-    uploadImage.style.filter = 'invert' + '(' + value * MAX_EFFECT_LEVEL + '%)';
+    uploadImage.style.filter = 'invert' + '(' + value + '%)';
   }
 
   if (checkedEffect === 'phobos') {
-    uploadImage.style.filter = 'blur' + '(' + Math.floor(value * MAX_EFFECT_LEVEL / FOBOS_EFFECT_LEVEL) + 'px)';
+    uploadImage.style.filter = 'blur' + '(' + Math.floor(value / FOBOS_EFFECT_LEVEL) + 'px)';
   }
 
   if (checkedEffect === 'heat') {
-    uploadImage.style.filter = 'brightness' + '(' + Math.ceil(value * MAX_EFFECT_LEVEL / HEAT_EFFECT_LEVEL) + ')';
+    uploadImage.style.filter = 'brightness' + '(' + Math.ceil(value / HEAT_EFFECT_LEVEL) + ')';
   }
 };
 
 var pinMoveHandler = function (evt) {
   var effectLineWidth = effectLevelLine.offsetWidth;
   var valueX = evt.offsetX;
-  effectLevelValue.value = valueX / effectLineWidth;
+  effectLevelValue.value = Math.floor(valueX / effectLineWidth * MAX_EFFECT_LEVEL);
 
   effectLevelPin.style.left = valueX + 'px';
   lineDepth.style.width = valueX + 'px';
