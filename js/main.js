@@ -199,9 +199,9 @@ var uploadImage = uploadForm.querySelector('.img-upload__preview img');
 var effectLevelSlider = uploadForm.querySelector('.img-upload__effect-level');
 
 var getEffectDefault = function () {
-  effectLevelPin.style = 'left: ' + MAX_EFFECT_LEVEL + '%;';
-  lineDepth.style = 'width: ' + MAX_EFFECT_LEVEL + '%;';
-  uploadImage.style = null;
+  effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
+  lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
+  uploadImage.style.filter = null;
 };
 
 var effectClickHandler = function (evt) {
@@ -267,8 +267,8 @@ var pinMoveHandler = function (evt) {
   var valueX = evt.offsetX;
   effectLevelValue.value = valueX / effectLineWidth;
 
-  effectLevelPin.style = 'left: ' + valueX + 'px;';
-  lineDepth.style = 'width: ' + valueX + 'px;';
+  effectLevelPin.style.left = valueX + 'px';
+  lineDepth.style.width = valueX + 'px';
 
   changeEffectLevel(effectLevelValue.value);
 };
@@ -278,7 +278,7 @@ var scaleControlSmaller = uploadForm.querySelector('.scale__control--smaller');
 var scaleControlBigger = uploadForm.querySelector('.scale__control--bigger');
 
 var changeScale = function (value) {
-  uploadImage.style = 'transform: scale(' + (value / MAX_SCALE) + ');';
+  uploadImage.style.transform = 'scale' + '(' + (value / MAX_SCALE) + ')';
 };
 
 scaleControlValue.value = MAX_SCALE;
@@ -287,8 +287,6 @@ var scaleSmallerClickHandler = function () {
     scaleControlValue.value = parseInt(scaleControlValue.value, 10) - MIN_SCALE;
   }
   changeScale(scaleControlValue.value);
-  console.log('smaller ok');
-  console.log(scaleControlValue.value);
 };
 
 var scaleBiggerClickHandler = function () {
@@ -296,8 +294,6 @@ var scaleBiggerClickHandler = function () {
     scaleControlValue.value = parseInt(scaleControlValue.value, 10) + MIN_SCALE;
   }
   changeScale(scaleControlValue.value);
-  console.log('bigger ok');
-  console.log(scaleControlValue.value);
 };
 
 var closeFormEscHandler = function (evt) {
