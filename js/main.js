@@ -238,27 +238,27 @@ var changeEffectLevel = function (value) {
   var checkedEffect = effectButtonActive.value;
 
   if (checkedEffect === 'none') {
-    uploadImage.style = null;
+    uploadImage.style.filter = null;
   }
 
   if (checkedEffect === 'chrome') {
-    uploadImage.style = 'filter: grayscale(' + value + ');';
+    uploadImage.style.filter = 'grayscale' + '(' + value + ')';
   }
 
   if (checkedEffect === 'sepia') {
-    uploadImage.style = 'filter: sepia(' + value + ');';
+    uploadImage.style.filter = 'sepia' + '(' + value + ')';
   }
 
   if (checkedEffect === 'marvin') {
-    uploadImage.style = 'filter: invert(' + value * MAX_EFFECT_LEVEL + '%);';
+    uploadImage.style.filter = 'invert' + '(' + value * MAX_EFFECT_LEVEL + '%)';
   }
 
   if (checkedEffect === 'phobos') {
-    uploadImage.style = 'filter: blur(' + Math.floor(value * MAX_EFFECT_LEVEL / FOBOS_EFFECT_LEVEL) + 'px);';
+    uploadImage.style.filter = 'blur' + '(' + Math.floor(value * MAX_EFFECT_LEVEL / FOBOS_EFFECT_LEVEL) + 'px)';
   }
 
   if (checkedEffect === 'heat') {
-    uploadImage.style = 'filter: brightness(' + Math.ceil(value * MAX_EFFECT_LEVEL / HEAT_EFFECT_LEVEL) + ');';
+    uploadImage.style.filter = 'brightness' + '(' + Math.ceil(value * MAX_EFFECT_LEVEL / HEAT_EFFECT_LEVEL) + ')';
   }
 };
 
