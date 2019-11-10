@@ -191,32 +191,49 @@ var effectLevelLine = uploadForm.querySelector('.effect-level__line');
 var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
 var lineDepth = uploadForm.querySelector('.effect-level__depth');
 var effectLevelValue = uploadForm.querySelector('.effect-level__value');
+var uploadImageEffect = uploadForm.querySelector('.img-upload__preview');
+var effectLevelSlider = uploadForm.querySelector('.img-upload__effect-level');
+
+var getEffectDefault = function () {
+  effectLevelPin.style = 'left: ' + 0 + 'px;';
+  lineDepth.style = 'width: ' + 0 + 'px;';
+  uploadImageEffect.style = null;
+};
 
 var effectClickHandler = function (evt) {
+  getEffectDefault();
+
   var uploadImage = uploadForm.querySelector('.img-upload__preview img');
   var target = evt.target;
-  var effect = uploadImage.classList.value;
 
-  if (effect) {
-    uploadImage.classList.remove(effect);
+  if (uploadImage.classList.value) {
+    uploadImage.classList.remove(uploadImage.classList.value);
   }
   uploadImage.classList.add('effects__preview--' + target.value);
+
+  if (uploadImage.classList.value === 'effects__preview--none') {
+    effectLevelSlider.classList.add('hidden');
+  } else {
+    effectLevelSlider.classList.remove('hidden');
+  }
+  console.log(uploadImage.classList.value);
 };
 
 var addEffectHandlers = function () {
   for (var i = 0; i < effectTypeButtons.length; i++) {
     effectTypeButtons[i].addEventListener('click', effectClickHandler);
+    console.log('addClickHandler: ' + i);
   }
 };
 
 var removeEffectHandlers = function () {
   for (var i = 0; i < effectTypeButtons.length; i++) {
     effectTypeButtons[i].removeEventListener('click', effectClickHandler);
+    console.log('removeClickHandler: ' + i);
   }
 };
 
-var changeEffectLevel = function () {
-  var uploadImageEffect = uploadForm.querySelector('.img-upload__preview');
+var changeEffectLevel = function (value) {
   var effectButtonActive = uploadForm.querySelector('input[name="effect"]:checked');
   var effect = effectButtonActive.value;
 
@@ -225,39 +242,34 @@ var changeEffectLevel = function () {
   }
 
   if (effect === 'chrome') {
-    uploadImageEffect.style = 'filter: grayscale(' + effectLevelValue.value + ');';
+    uploadImageEffect.style = 'filter: grayscale(' + value + ');';
   }
 
   if (effect === 'sepia') {
-    uploadImageEffect.style = 'filter: sepia(' + effectLevelValue.value + ');';
+    uploadImageEffect.style = 'filter: sepia(' + value + ');';
   }
 
   if (effect === 'marvin') {
-    uploadImageEffect.style = 'filter: invert(' + effectLevelValue.value * MAX_PERCENT_SEPIA + '%);';
+    uploadImageEffect.style = 'filter: invert(' + value * MAX_PERCENT_SEPIA + '%);';
   }
 
   if (effect === 'phobos') {
-    uploadImageEffect.style = 'filter: blur(' + effectLevelValue.value * 100 / 33 + 'px);';
+    uploadImageEffect.style = 'filter: blur(' + value * 100 / 33 + 'px);';
   }
 
   if (effect === 'heat') {
-    uploadImageEffect.style = 'filter: brightness(' + effectLevelValue.value * 100 / 33 + ');';
+    uploadImageEffect.style = 'filter: brightness(' + value * 100 / 33 + ');';
   }
-console.log(uploadImageEffect);
-  // var uploadImageEffect = uploadForm.querySelector('.img-upload__preview');
-  // uploadImageEffect.style = 'filter: grayscale(' + effectLevel + '%);';
 };
 
 var pinMoveHandler = function (evt) {
   var effectLineWidth = effectLevelLine.offsetWidth;
-  var value = evt.offsetX;
+  var valueX = evt.offsetX;
 
-  effectLevelPin.style = 'left: ' + value + 'px;';
-  lineDepth.style = 'width: ' + value + 'px;';
-
-  effectLevelValue.value = value / effectLineWidth;
-
-  changeEffectLevel();
+  effectLevelValue.value = valueX / effectLineWidth;
+  changeEffectLevel(effectLevelValue.value);
+  effectLevelPin.style = 'left: ' + valueX + 'px;';
+  lineDepth.style = 'width: ' + valueX + 'px;';
 };
 
 var closeFormEscHandler = function (evt) {
@@ -283,4 +295,7 @@ var uploadChangeHandler = function () {
   document.addEventListener('keydown', closeFormEscHandler);
 };
 
+
+getEffectDefault();
+effectLevelSlider.classList.add('hidden');
 uploadButton.addEventListener('change', uploadChangeHandler);
