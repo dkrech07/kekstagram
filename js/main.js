@@ -7,7 +7,9 @@ var MIN_LIKES = 15;
 var MAX_LIKES = 200;
 var MAX_COMMENTS = 10;
 var ESC_KEYCODE = 27;
-var MAX_PERCENT_SEPIA = 100;
+var MAX_EFFECT_LEVEL = 100;
+var FOBOS_EFFECT_LEVEL = 25;
+var HEAT_EFFECT_LEVEL = 33;
 
 var COMMENTS_LIST = [
   'Всё отлично!',
@@ -191,19 +193,18 @@ var effectLevelLine = uploadForm.querySelector('.effect-level__line');
 var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
 var lineDepth = uploadForm.querySelector('.effect-level__depth');
 var effectLevelValue = uploadForm.querySelector('.effect-level__value');
-var uploadImageEffect = uploadForm.querySelector('.img-upload__preview');
+var uploadImage = uploadForm.querySelector('.img-upload__preview img');
 var effectLevelSlider = uploadForm.querySelector('.img-upload__effect-level');
 
 var getEffectDefault = function () {
-  effectLevelPin.style = 'left: ' + 0 + 'px;';
-  lineDepth.style = 'width: ' + 0 + 'px;';
-  uploadImageEffect.style = null;
+  effectLevelPin.style = 'left: ' + MAX_EFFECT_LEVEL + '%;';
+  lineDepth.style = 'width: ' + MAX_EFFECT_LEVEL + '%;';
+  uploadImage.style = null;
 };
 
 var effectClickHandler = function (evt) {
   getEffectDefault();
 
-  var uploadImage = uploadForm.querySelector('.img-upload__preview img');
   var target = evt.target;
 
   if (uploadImage.classList.value) {
@@ -216,60 +217,58 @@ var effectClickHandler = function (evt) {
   } else {
     effectLevelSlider.classList.remove('hidden');
   }
-  console.log(uploadImage.classList.value);
 };
 
 var addEffectHandlers = function () {
   for (var i = 0; i < effectTypeButtons.length; i++) {
     effectTypeButtons[i].addEventListener('click', effectClickHandler);
-    console.log('addClickHandler: ' + i);
   }
 };
 
 var removeEffectHandlers = function () {
   for (var i = 0; i < effectTypeButtons.length; i++) {
     effectTypeButtons[i].removeEventListener('click', effectClickHandler);
-    console.log('removeClickHandler: ' + i);
   }
 };
 
 var changeEffectLevel = function (value) {
   var effectButtonActive = uploadForm.querySelector('input[name="effect"]:checked');
-  var effect = effectButtonActive.value;
+  var checkedEffect = effectButtonActive.value;
 
-  if (effect === 'none') {
-    uploadImageEffect.style = null;
+  if (checkedEffect === 'none') {
+    uploadImage.style = null;
   }
 
-  if (effect === 'chrome') {
-    uploadImageEffect.style = 'filter: grayscale(' + value + ');';
+  if (checkedEffect === 'chrome') {
+    uploadImage.style = 'filter: grayscale(' + value + ');';
   }
 
-  if (effect === 'sepia') {
-    uploadImageEffect.style = 'filter: sepia(' + value + ');';
+  if (checkedEffect === 'sepia') {
+    uploadImage.style = 'filter: sepia(' + value + ');';
   }
 
-  if (effect === 'marvin') {
-    uploadImageEffect.style = 'filter: invert(' + value * MAX_PERCENT_SEPIA + '%);';
+  if (checkedEffect === 'marvin') {
+    uploadImage.style = 'filter: invert(' + value * MAX_EFFECT_LEVEL + '%);';
   }
 
-  if (effect === 'phobos') {
-    uploadImageEffect.style = 'filter: blur(' + value * 100 / 33 + 'px);';
+  if (checkedEffect === 'phobos') {
+    uploadImage.style = 'filter: blur(' + Math.floor(value * MAX_EFFECT_LEVEL / FOBOS_EFFECT_LEVEL) + 'px);';
   }
 
-  if (effect === 'heat') {
-    uploadImageEffect.style = 'filter: brightness(' + value * 100 / 33 + ');';
+  if (checkedEffect === 'heat') {
+    uploadImage.style = 'filter: brightness(' + Math.ceil(value * MAX_EFFECT_LEVEL / HEAT_EFFECT_LEVEL) + ');';
   }
 };
 
 var pinMoveHandler = function (evt) {
   var effectLineWidth = effectLevelLine.offsetWidth;
   var valueX = evt.offsetX;
-
   effectLevelValue.value = valueX / effectLineWidth;
-  changeEffectLevel(effectLevelValue.value);
+
   effectLevelPin.style = 'left: ' + valueX + 'px;';
   lineDepth.style = 'width: ' + valueX + 'px;';
+
+  changeEffectLevel(effectLevelValue.value);
 };
 
 var closeFormEscHandler = function (evt) {
@@ -294,7 +293,6 @@ var uploadChangeHandler = function () {
   closeFormButton.addEventListener('click', removeChangeHandler);
   document.addEventListener('keydown', closeFormEscHandler);
 };
-
 
 getEffectDefault();
 effectLevelSlider.classList.add('hidden');
