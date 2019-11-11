@@ -333,16 +333,39 @@ var hashtagsInput = uploadForm.querySelector('.text__hashtags');
 var hashtagsArray = [];
 var hashtagsErrorMessage = '';
 
+var checkDuplication = function (array) {
+  var duplicate = false;
+  for (var i = 0; i < array.length; i++) {
+    var currentElement = array[i];
+    for (var j = i + 1; j < array.length; j++) {
+      var checkElement = array[j];
+      if (currentElement === checkElement) {
+        duplicate = true;
+      }
+    }
+  }
+  return duplicate;
+};
+
 var validateHashtags = function (array) {
   for (var i = 0; i < array.length; i++) {
+    console.log(array[i]);
     if (array[i].charAt(0) !== '#') {
       hashtagsErrorMessage = 'Хэш-тэг должен начинаться с #';
       hashtagsInput.style.borderColor = ALERT_COLOR;
+    } else if (array[i] === '#') {
+      hashtagsErrorMessage = 'Хеш-тег не может состоять только из одной #';
+      hashtagsInput.style.borderColor = ALERT_COLOR;
+    } else if (array[i].indexOf('#', 1) > 0) {
+      hashtagsErrorMessage = 'хэш-теги должны разделяться пробелами';
+    } else if (checkDuplication(array)) {
+      hashtagsErrorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
     } else {
       hashtagsErrorMessage = '';
     }
   }
   hashtagsInput.setCustomValidity(hashtagsErrorMessage);
+  console.log(array);
 };
 
 var hashtagsInputChange = function (evt) {
