@@ -13,6 +13,8 @@ var HEAT_EFFECT_LEVEL = 33;
 var MIN_SCALE = 25;
 var MAX_SCALE = 100;
 var ALERT_COLOR = '#FF4E4E';
+var HASHTAGS_NUMBER = 5;
+var HASHTAG_LENGTH = 20;
 
 var COMMENTS_LIST = [
   'Всё отлично!',
@@ -360,6 +362,10 @@ var validateHashtags = function (array) {
       hashtagsErrorMessage = 'хэш-теги должны разделяться пробелами';
     } else if (checkDuplication(array)) {
       hashtagsErrorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
+    } else if (array.length > HASHTAGS_NUMBER) {
+      hashtagsErrorMessage = 'Нельзя указать больше пяти хэш-тегов';
+    } else if (array[i].length > HASHTAG_LENGTH) {
+      hashtagsErrorMessage = 'Максимальная длина одного хэш-тега 20 символов, включая решётку';
     } else {
       hashtagsErrorMessage = '';
     }
