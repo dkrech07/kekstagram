@@ -12,6 +12,7 @@ var FOBOS_EFFECT_LEVEL = 25;
 var HEAT_EFFECT_LEVEL = 33;
 var MIN_SCALE = 25;
 var MAX_SCALE = 100;
+var ALERT_COLOR = '#FF4E4E';
 
 var COMMENTS_LIST = [
   'Всё отлично!',
@@ -329,13 +330,24 @@ uploadButton.addEventListener('change', uploadChangeHandler);
 
 var uploadForm = document.querySelector('.img-upload__form');
 var hashtagsInput = uploadForm.querySelector('.text__hashtags');
+var hashtagsArray = [];
+var hashtagsErrorMessage = '';
 
-var uploadFormSendHandler = function (evt) {
-  evt.preventDefault();
-
-  console.log(hashtagsInput);
-  console.log(hashtagsInput.value);
-  console.log(evt);
+var validateHashtags = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].charAt(0) !== '#') {
+      hashtagsErrorMessage = 'Хэш-тэг должен начинаться с #';
+      hashtagsInput.style.borderColor = ALERT_COLOR;
+    } else {
+      hashtagsErrorMessage = '';
+    }
+  }
+  hashtagsInput.setCustomValidity(hashtagsErrorMessage);
 };
 
-uploadForm.addEventListener('submit', uploadFormSendHandler);
+var hashtagsInputChange = function (evt) {
+  hashtagsArray = evt.target.value.split(' ');
+  validateHashtags(hashtagsArray);
+};
+
+hashtagsInput.addEventListener('change', hashtagsInputChange);
