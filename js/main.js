@@ -187,16 +187,16 @@ drawPhotos();
 // drawBigPicture(0);
 
 var uploadButton = document.querySelector('#upload-file');
-var uploadForm = document.querySelector('.img-upload__overlay');
-var closeFormButton = uploadForm.querySelector('.img-upload__cancel');
-var effectTypeButtons = uploadForm.querySelectorAll('.effects__radio');
+var imageForm = document.querySelector('.img-upload__overlay');
+var closeFormButton = imageForm.querySelector('.img-upload__cancel');
+var effectTypeButtons = imageForm.querySelectorAll('.effects__radio');
 
-var effectLevelLine = uploadForm.querySelector('.effect-level__line');
-var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
-var lineDepth = uploadForm.querySelector('.effect-level__depth');
-var effectLevelValue = uploadForm.querySelector('.effect-level__value');
-var uploadImage = uploadForm.querySelector('.img-upload__preview img');
-var effectLevelSlider = uploadForm.querySelector('.img-upload__effect-level');
+var effectLevelLine = imageForm.querySelector('.effect-level__line');
+var effectLevelPin = imageForm.querySelector('.effect-level__pin');
+var lineDepth = imageForm.querySelector('.effect-level__depth');
+var effectLevelValue = imageForm.querySelector('.effect-level__value');
+var uploadImage = imageForm.querySelector('.img-upload__preview img');
+var effectLevelSlider = imageForm.querySelector('.img-upload__effect-level');
 
 var getEffectDefault = function () {
   effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
@@ -234,7 +234,7 @@ var removeEffectHandlers = function () {
 };
 
 var changeEffectLevel = function (value) {
-  var effectButtonActive = uploadForm.querySelector('input[name="effect"]:checked');
+  var effectButtonActive = imageForm.querySelector('input[name="effect"]:checked');
   var checkedEffect = effectButtonActive.value;
 
   if (checkedEffect === 'none') {
@@ -273,9 +273,9 @@ var pinMoveHandler = function (evt) {
   changeEffectLevel(effectLevelValue.value);
 };
 
-var scaleControlValue = uploadForm.querySelector('.scale__control--value');
-var scaleControlSmaller = uploadForm.querySelector('.scale__control--smaller');
-var scaleControlBigger = uploadForm.querySelector('.scale__control--bigger');
+var scaleControlValue = imageForm.querySelector('.scale__control--value');
+var scaleControlSmaller = imageForm.querySelector('.scale__control--smaller');
+var scaleControlBigger = imageForm.querySelector('.scale__control--bigger');
 
 var changeScale = function (value) {
   uploadImage.style.transform = 'scale' + '(' + (value / MAX_SCALE) + ')';
@@ -303,7 +303,7 @@ var closeFormEscHandler = function (evt) {
 };
 
 var removeChangeHandler = function () {
-  uploadForm.classList.add('hidden');
+  imageForm.classList.add('hidden');
   removeEffectHandlers();
   scaleControlSmaller.removeEventListener('click', scaleSmallerClickHandler);
   scaleControlBigger.removeEventListener('click', scaleBiggerClickHandler);
@@ -314,7 +314,7 @@ var removeChangeHandler = function () {
 };
 
 var uploadChangeHandler = function () {
-  uploadForm.classList.remove('hidden');
+  imageForm.classList.remove('hidden');
   addEffectHandlers();
   scaleControlSmaller.addEventListener('click', scaleSmallerClickHandler);
   scaleControlBigger.addEventListener('click', scaleBiggerClickHandler);
@@ -326,3 +326,16 @@ var uploadChangeHandler = function () {
 getEffectDefault();
 effectLevelSlider.classList.add('hidden');
 uploadButton.addEventListener('change', uploadChangeHandler);
+
+var uploadForm = document.querySelector('.img-upload__form');
+var hashtagsInput = uploadForm.querySelector('.text__hashtags');
+
+var uploadFormSendHandler = function (evt) {
+  evt.preventDefault();
+
+  console.log(hashtagsInput);
+  console.log(hashtagsInput.value);
+  console.log(evt);
+};
+
+uploadForm.addEventListener('submit', uploadFormSendHandler);
