@@ -336,11 +336,15 @@ var hashtagsArray = [];
 var hashtagsErrorMessage = '';
 
 var checkDuplication = function (array) {
+  var checkingArray = Array.from(array);
+  for (var i = 0; i < checkingArray.length; i++) {
+    checkingArray[i] = checkingArray[i].toLowerCase();
+  }
   var duplicate = false;
-  for (var i = 0; i < array.length; i++) {
-    var currentElement = array[i];
-    for (var j = i + 1; j < array.length; j++) {
-      var checkElement = array[j];
+  for (var j = 0; j < checkingArray.length; j++) {
+    var currentElement = checkingArray[j];
+    for (var k = j + 1; k < checkingArray.length; k++) {
+      var checkElement = checkingArray[k];
       if (currentElement === checkElement) {
         duplicate = true;
       }
@@ -360,8 +364,6 @@ var validateHashtags = function (array) {
       hashtagsInput.style.borderColor = ALERT_COLOR;
     } else if (array[i].indexOf('#', 1) > 0) {
       hashtagsErrorMessage = 'хэш-теги должны разделяться пробелами';
-    } else if (checkDuplication(array)) {
-      hashtagsErrorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
     } else if (array.length > HASHTAGS_NUMBER) {
       hashtagsErrorMessage = 'Нельзя указать больше пяти хэш-тегов';
     } else if (array[i].length > HASHTAG_LENGTH) {
@@ -369,6 +371,9 @@ var validateHashtags = function (array) {
     } else {
       hashtagsErrorMessage = '';
     }
+  }
+  if (checkDuplication(array)) {
+    hashtagsErrorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
   }
   hashtagsInput.setCustomValidity(hashtagsErrorMessage);
   console.log(array);
