@@ -201,6 +201,11 @@ var effectLevelValue = imageForm.querySelector('.effect-level__value');
 var uploadImage = imageForm.querySelector('.img-upload__preview img');
 var effectLevelSlider = imageForm.querySelector('.img-upload__effect-level');
 
+var uploadForm = document.querySelector('.img-upload__form');
+var hashtagsInput = uploadForm.querySelector('.text__hashtags');
+var hashtagsArray = [];
+var hashtagsErrorMessage = '';
+
 var getEffectDefault = function () {
   effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
   lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
@@ -299,42 +304,6 @@ var scaleBiggerClickHandler = function () {
   changeScale(scaleControlValue.value);
 };
 
-var closeFormEscHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    removeChangeHandler();
-  }
-};
-
-var removeChangeHandler = function () {
-  imageForm.classList.add('hidden');
-  removeEffectHandlers();
-  scaleControlSmaller.removeEventListener('click', scaleSmallerClickHandler);
-  scaleControlBigger.removeEventListener('click', scaleBiggerClickHandler);
-  effectLevelLine.removeEventListener('mouseup', pinMoveHandler);
-  closeFormButton.removeEventListener('click', removeChangeHandler);
-  document.removeEventListener('keydown', closeFormEscHandler);
-  uploadButton.value = null;
-};
-
-var uploadChangeHandler = function () {
-  imageForm.classList.remove('hidden');
-  addEffectHandlers();
-  scaleControlSmaller.addEventListener('click', scaleSmallerClickHandler);
-  scaleControlBigger.addEventListener('click', scaleBiggerClickHandler);
-  effectLevelLine.addEventListener('mouseup', pinMoveHandler);
-  closeFormButton.addEventListener('click', removeChangeHandler);
-  document.addEventListener('keydown', closeFormEscHandler);
-};
-
-getEffectDefault();
-effectLevelSlider.classList.add('hidden');
-uploadButton.addEventListener('change', uploadChangeHandler);
-
-var uploadForm = document.querySelector('.img-upload__form');
-var hashtagsInput = uploadForm.querySelector('.text__hashtags');
-var hashtagsArray = [];
-var hashtagsErrorMessage = '';
-
 var checkDuplication = function (array) {
   var checkingArray = Array.from(array);
   for (var i = 0; i < checkingArray.length; i++) {
@@ -382,7 +351,49 @@ var hashtagsInputChange = function (evt) {
   validateHashtags(hashtagsArray);
 };
 
-hashtagsInput.addEventListener('change', hashtagsInputChange);
-hashtagsInput.addEventListener('keydown', function (evt) {
-  evt.stopPropagation();
-});
+var addHashtagsHandlers = function () {
+  hashtagsInput.addEventListener('change', hashtagsInputChange);
+  hashtagsInput.addEventListener('keydown', function (evt) {
+    evt.stopPropagation();
+  });
+};
+
+var removeHashtagsHandlers = function () {
+  hashtagsInput.removeEventListener('change', hashtagsInputChange);
+  hashtagsInput.removeEventListener('keydown', function (evt) {
+    evt.stopPropagation();
+  });
+};
+
+var closeFormEscHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    removeChangeHandler();
+  }
+};
+
+var removeChangeHandler = function () {
+  imageForm.classList.add('hidden');
+  removeHashtagsHandlers();
+  removeEffectHandlers();
+  scaleControlSmaller.removeEventListener('click', scaleSmallerClickHandler);
+  scaleControlBigger.removeEventListener('click', scaleBiggerClickHandler);
+  effectLevelLine.removeEventListener('mouseup', pinMoveHandler);
+  closeFormButton.removeEventListener('click', removeChangeHandler);
+  document.removeEventListener('keydown', closeFormEscHandler);
+  uploadButton.value = null;
+};
+
+var uploadChangeHandler = function () {
+  imageForm.classList.remove('hidden');
+  addHashtagsHandlers();
+  addEffectHandlers();
+  scaleControlSmaller.addEventListener('click', scaleSmallerClickHandler);
+  scaleControlBigger.addEventListener('click', scaleBiggerClickHandler);
+  effectLevelLine.addEventListener('mouseup', pinMoveHandler);
+  closeFormButton.addEventListener('click', removeChangeHandler);
+  document.addEventListener('keydown', closeFormEscHandler);
+};
+
+getEffectDefault();
+effectLevelSlider.classList.add('hidden');
+uploadButton.addEventListener('change', uploadChangeHandler);
