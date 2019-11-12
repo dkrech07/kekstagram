@@ -187,7 +187,6 @@ var drawBigPicture = function (number) {
 };
 
 drawPhotos();
-// drawBigPicture(0);
 
 var uploadButton = document.querySelector('#upload-file');
 var imageForm = document.querySelector('.img-upload__overlay');
@@ -397,3 +396,26 @@ var uploadChangeHandler = function () {
 getEffectDefault();
 effectLevelSlider.classList.add('hidden');
 uploadButton.addEventListener('change', uploadChangeHandler);
+
+var photosContainer = document.querySelector('.pictures');
+
+var markPhotos = function () {
+  var allPhotos = photosContainer.querySelectorAll('.picture');
+  for (var i = 0; i < allPhotos.length; i++) {
+    // allPhotos[i].classList.add('photo-' + i);
+    allPhotos[i].id = i;
+  }
+};
+
+markPhotos();
+
+var photoClickHandler = function (evt) {
+  var target = evt.target;
+  var photoId = parseInt(target.parentElement.id, 10);
+
+  if (photoId) {
+    drawBigPicture(photoId);
+  }
+};
+
+photosContainer.addEventListener('click', photoClickHandler);
