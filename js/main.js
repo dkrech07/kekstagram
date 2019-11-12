@@ -355,7 +355,6 @@ var checkDuplication = function (array) {
 
 var validateHashtags = function (array) {
   for (var i = 0; i < array.length; i++) {
-    console.log(array[i]);
     if (array[i].charAt(0) !== '#') {
       hashtagsErrorMessage = 'Хэш-тэг должен начинаться с #';
       hashtagsInput.style.borderColor = ALERT_COLOR;
@@ -376,7 +375,6 @@ var validateHashtags = function (array) {
     hashtagsErrorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
   }
   hashtagsInput.setCustomValidity(hashtagsErrorMessage);
-  console.log(array);
 };
 
 var hashtagsInputChange = function (evt) {
@@ -385,3 +383,6 @@ var hashtagsInputChange = function (evt) {
 };
 
 hashtagsInput.addEventListener('change', hashtagsInputChange);
+hashtagsInput.addEventListener('keydown', function (evt) {
+  evt.stopPropagation();
+});
