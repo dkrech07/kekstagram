@@ -6,6 +6,7 @@ var MAX_LENGTH_COMMENT = 2;
 var MIN_LIKES = 15;
 var MAX_LIKES = 200;
 var MAX_COMMENTS = 10;
+var MAX_COMMENT_LENGTH = 140;
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var MAX_EFFECT_LEVEL = 100;
@@ -55,6 +56,7 @@ var effectLevelSlider = imageForm.querySelector('.img-upload__effect-level');
 
 var uploadForm = document.querySelector('.img-upload__form');
 var hashtagsInput = uploadForm.querySelector('.text__hashtags');
+var formCommentInput = uploadForm.querySelector('.text__description');
 var hashtagsArray = [];
 var hashtagsErrorMessage = '';
 
@@ -367,6 +369,33 @@ var removeHashtagsHandlers = function () {
   });
 };
 
+var validateFormComment = function (target) {
+  if (target.length > MAX_COMMENT_LENGTH) {
+    formCommentInput.setCustomValidity('Длина комментария не может составлять больше 140 символов');
+  } else {
+    formCommentInput.setCustomValidity('');
+  }
+};
+
+var formCommentClickHandler = function (evt) {
+  var target = evt.target.value;
+  validateFormComment(target);
+};
+
+var addCommentHandlers = function () {
+  formCommentInput.addEventListener('change', formCommentClickHandler);
+  formCommentInput.addEventListener('keydown', function (evt) {
+    evt.stopPropagation();
+  });
+};
+
+var removeCommentHandlers = function () {
+  formCommentInput.removeEventListener('change', formCommentClickHandler);
+  formCommentInput.removeEventListener('keydown', function (evt) {
+    evt.stopPropagation();
+  });
+};
+
 var closeFormEscHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     removeChangeHandler();
@@ -375,6 +404,7 @@ var closeFormEscHandler = function (evt) {
 
 var removeChangeHandler = function () {
   imageForm.classList.add('hidden');
+  removeCommentHandlers();
   removeHashtagsHandlers();
   removeEffectHandlers();
   scaleControlSmaller.removeEventListener('click', scaleSmallerClickHandler);
@@ -387,6 +417,7 @@ var removeChangeHandler = function () {
 
 var uploadChangeHandler = function () {
   imageForm.classList.remove('hidden');
+  addCommentHandlers();
   addHashtagsHandlers();
   addEffectHandlers();
   scaleControlSmaller.addEventListener('click', scaleSmallerClickHandler);
@@ -425,10 +456,7 @@ var removeBigPictureListeners = function () {
   document.removeEventListener('keydown', bigPictureEscHandler);
 };
 
-var photoClickHandler = function (evt) {
-  var target = evt.target;
-  var photoId = parseInt(target.parentElement.id, 10);
-
+var addPhotoHandle = function (photoId) {
   if (photoId || photoId === 0) {
     drawBigPicture(photoId);
 
@@ -437,17 +465,19 @@ var photoClickHandler = function (evt) {
   }
 };
 
+var photoClickHandler = function (evt) {
+  var target = evt.target;
+  var photoId = parseInt(target.parentElement.id, 10);
+
+  addPhotoHandle(photoId);
+};
+
 var photoEnterHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     var target = evt.target;
     var photoId = parseInt(target.id, 10);
 
-    if (photoId || photoId === 0) {
-      drawBigPicture(photoId);
-
-      closeBigPictureButton.addEventListener('click', bigPictureCloseHandler);
-      document.addEventListener('keydown', bigPictureEscHandler);
-    }
+    addPhotoHandle(photoId);
   }
 };
 
