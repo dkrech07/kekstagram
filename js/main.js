@@ -41,34 +41,6 @@ var removeChild = function (element) {
   }
 };
 
-var getPhoto = function (imageObject) {
-  var template = document.querySelector('#picture').content.querySelector('.picture');
-  var element = template.cloneNode(true);
-
-  var image = element.querySelector('img');
-  image.src = imageObject.url;
-
-  var likes = element.querySelector('.picture__likes');
-  likes.textContent = imageObject.likes;
-
-  var comments = element.querySelector('.picture__comments');
-  comments.textContent = imageObject.comments.length;
-
-  return element;
-};
-
-var drawPhotos = function () {
-  var pictures = document.querySelector('.pictures');
-  var fragment = document.createDocumentFragment();
-
-  for (var i = 0; i < window.data.PHOTOS_NUMBER; i++) {
-    var photo = getPhoto(window.data.getPhotosArray()[i]);
-    fragment.appendChild(photo);
-  }
-
-  pictures.appendChild(fragment);
-};
-
 var drawPhotoInformation = function (number, element) {
   var image = bigPicture.querySelector('.big-picture__img img');
   image.src = element.url;
@@ -117,8 +89,6 @@ var drawBigPicture = function (number) {
 
   hideBigPhotoElements();
 };
-
-drawPhotos();
 
 var getEffectDefault = function () {
   effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
