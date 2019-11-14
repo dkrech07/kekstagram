@@ -1,11 +1,6 @@
 'use strict';
 
-var PHOTOS_NUMBER = 25;
-var AVATARS_NUMBER = 6;
-var MAX_LENGTH_COMMENT = 2;
-var MIN_LIKES = 15;
-var MAX_LIKES = 200;
-var MAX_COMMENTS = 10;
+
 var MAX_COMMENT_LENGTH = 140;
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
@@ -17,26 +12,6 @@ var MAX_SCALE = 100;
 var ALERT_COLOR = '#FF4E4E';
 var HASHTAGS_NUMBER = 5;
 var HASHTAG_LENGTH = 20;
-
-var COMMENTS_LIST = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-];
-
-var DESCRIPTION_LIST = [
-  'Тестим новую камеру!',
-  ' Затусили с друзьями на море',
-  'Как же круто тут кормят',
-  'Отдыхаем...',
-  'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
-  'Вот это тачка!'
-];
-
-var NAMES_LIST = ['Татьяна', 'Николай', 'Снежанна', 'Ирина', 'Анжела', 'Игорь', 'Карась'];
 
 var bigPicture = document.querySelector('.big-picture');
 var closeBigPictureButton = bigPicture.querySelector('.big-picture__cancel');
@@ -60,75 +35,10 @@ var formCommentInput = uploadForm.querySelector('.text__description');
 var hashtagsArray = [];
 var hashtagsErrorMessage = '';
 
-var getRandom = function (number) {
-  return Math.floor(Math.random() * number);
-};
-
-var getRandomDouble = function (min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-};
-
-var compareRandom = function () {
-  return Math.random() - 0.5;
-};
-
 var removeChild = function (element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
-};
-
-var getRandomDescription = function () {
-  var description = DESCRIPTION_LIST[getRandom(DESCRIPTION_LIST.length)];
-  return description;
-};
-
-var getRandomLikes = function () {
-  var likes = getRandomDouble(MIN_LIKES, MAX_LIKES);
-  return likes;
-};
-
-var getRandomMessage = function () {
-  var newArray = Array.from(COMMENTS_LIST);
-  var message = newArray.sort(compareRandom);
-  message.length = getRandom(MAX_LENGTH_COMMENT) + 1;
-  return message.join(', ');
-};
-
-var getRandomName = function () {
-  var name = NAMES_LIST[getRandom(NAMES_LIST.length)];
-  return name;
-};
-
-var getRandomComment = function () {
-  var comment = {
-    avatar: 'img/avatar-' + (getRandom(AVATARS_NUMBER) + 1) + '.svg',
-    message: getRandomMessage(),
-    name: getRandomName()
-  };
-  return comment;
-};
-
-var getAllCommenst = function () {
-  var commentArray = [];
-  for (var i = 0; i < getRandom(MAX_COMMENTS) + 1; i++) {
-    commentArray.push(getRandomComment());
-  }
-  return commentArray;
-};
-
-var getPhotosArray = function () {
-  var photosArray = [];
-  for (var i = 0; i < PHOTOS_NUMBER; i++) {
-    var photo = {
-      url: 'photos/' + (i + 1) + '.jpg',
-      description: getRandomDescription(),
-      likes: getRandomLikes(),
-      comments: getAllCommenst()
-    };
-    photosArray.push(photo);
-  }
-  return photosArray;
 };
 
 var getPhoto = function (imageObject) {
@@ -151,8 +61,8 @@ var drawPhotos = function () {
   var pictures = document.querySelector('.pictures');
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < PHOTOS_NUMBER; i++) {
-    var photo = getPhoto(getPhotosArray()[i]);
+  for (var i = 0; i < window.data.PHOTOS_NUMBER; i++) {
+    var photo = getPhoto(window.data.getPhotosArray()[i]);
     fragment.appendChild(photo);
   }
 
@@ -200,7 +110,7 @@ var hideBigPhotoElements = function () {
 
 var drawBigPicture = function (number) {
   bigPicture.classList.remove('hidden');
-  var element = getPhotosArray()[number];
+  var element = window.data.getPhotosArray()[number];
 
   drawPhotoInformation(number, element);
   drawCommentInformation(number, element);
