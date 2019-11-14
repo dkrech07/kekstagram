@@ -1,9 +1,11 @@
 'use strict';
 // gallery.js — модуль, который работает с галереей изображений; Использует вспомогательные модули:
 (function () {
-  window.ESC_KEYCODE = 27;
 
-  var ENTER_KEYCODE = 13;
+  window.gallery = {
+    ESC_KEYCODE: 27,
+    ENTER_KEYCODE: 13
+  };
 
   var closeBigPictureButton = window.preview.bigPicture.querySelector('.big-picture__cancel');
   var photosContainer = document.querySelector('.pictures');
@@ -26,7 +28,7 @@
   };
 
   var bigPictureEscHandler = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === window.gallery.ESC_KEYCODE) {
       bigPictureCloseHandler();
     }
   };
@@ -48,7 +50,7 @@
   };
 
   var photoEnterHandler = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
+    if (evt.keyCode === window.gallery.ENTER_KEYCODE) {
       var target = evt.target;
       var photoId = parseInt(target.id, 10);
 

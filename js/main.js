@@ -216,7 +216,7 @@ var removeCommentHandlers = function () {
 };
 
 var closeFormEscHandler = function (evt) {
-  if (evt.keyCode === window.ESC_KEYCODE) {
+  if (evt.keyCode === window.gallery.ESC_KEYCODE) {
     removeChangeHandler();
   }
 };
