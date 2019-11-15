@@ -2,18 +2,7 @@
 // preview.js — модуль для отрисовки увеличенного изображения;
 (function () {
 
-  window.preview = {
-    bigPicture: document.querySelector('.big-picture'),
-    drawBigPicture: function (number) {
-      window.preview.bigPicture.classList.remove('hidden');
-      var element = window.data.getPhotosArray()[number];
-
-      drawPhotoInformation(number, element);
-      drawCommentInformation(number, element);
-
-      hideBigPhotoElements();
-    }
-  };
+  var bigPicture = document.querySelector('.big-picture');
 
   var removeChild = function (element) {
     while (element.firstChild) {
@@ -26,6 +15,16 @@
     var commentsLoader = window.preview.bigPicture.querySelector('.comments-loader');
     commentsCounter.classList.add('visually-hidden');
     commentsLoader.classList.add('visually-hidden');
+  };
+
+  var drawBigPicture = function (number) {
+    window.preview.bigPicture.classList.remove('hidden');
+    var element = window.data.getPhotosArray()[number];
+
+    drawPhotoInformation(number, element);
+    drawCommentInformation(number, element);
+
+    hideBigPhotoElements();
   };
 
   var drawPhotoInformation = function (number, element) {
@@ -58,6 +57,11 @@
       fragment.appendChild(comment);
     }
     socialComments.appendChild(fragment);
+  };
+
+  window.preview = {
+    bigPicture: bigPicture,
+    drawBigPicture: drawBigPicture
   };
 
 })();
