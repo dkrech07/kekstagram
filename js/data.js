@@ -30,6 +30,7 @@
 
   window.data = {
     PHOTOS_NUMBER: 25,
+    imageForm: document.querySelector('.img-upload__overlay'),
     getPhotosArray: function () {
       var photosArray = [];
       for (var i = 0; i < this.PHOTOS_NUMBER; i++) {
