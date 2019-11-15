@@ -21,7 +21,7 @@
     window.effects.removeEffectHandlers();
     scaleControlSmaller.removeEventListener('click', window.effects.scaleSmallerClickHandler);
     scaleControlBigger.removeEventListener('click', window.effects.scaleBiggerClickHandler);
-    window.effects.effectLevelLine.removeEventListener('mouseup', window.effects.pinMoveHandler);
+    // window.effects.effectLevelLine.removeEventListener('mouseup', window.effects.pinMoveHandler);
     closeFormButton.removeEventListener('click', removeChangeHandler);
     document.removeEventListener('keydown', closeFormEscHandler);
     uploadButton.value = null;
@@ -34,7 +34,7 @@
     window.effects.addEffectHandlers();
     scaleControlSmaller.addEventListener('click', window.effects.scaleSmallerClickHandler);
     scaleControlBigger.addEventListener('click', window.effects.scaleBiggerClickHandler);
-    window.effects.effectLevelLine.addEventListener('mouseup', window.effects.pinMoveHandler);
+    // window.effects.effectLevelLine.addEventListener('mouseup', window.effects.pinMoveHandler);
     closeFormButton.addEventListener('click', removeChangeHandler);
     document.addEventListener('keydown', closeFormEscHandler);
   };

@@ -109,4 +109,50 @@
 
   scaleControlValue.value = MAX_SCALE;
 
+
+// Перемещение метки
+// Этип переменные заданы выше:
+// var effectLevelPin = window.data.imageForm.querySelector('.effect-level__pin');
+// var lineDepth = window.data.imageForm.querySelector('.effect-level__depth');
+// var effectLevelValue = window.data.imageForm.querySelector('.effect-level__value');
+
+  effectLevelPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoord = evt.clientX;
+
+    var dragged = false;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+      var shift = startCoord - moveEvt.clientX;
+
+      startCoord = moveEvt.clientX;
+
+      effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + 'px';
+
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function () {
+          evt.preventDefault();
+          effectLevelPin.removeEventListener('click', onClickPreventDefault);
+        };
+        effectLevelPin.addEventListener('click', onClickPreventDefault);
+      }
+
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
 })();
