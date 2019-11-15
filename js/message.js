@@ -40,7 +40,6 @@
     }
   };
 
-
   var checkDuplication = function (array) {
     var checkingArray = Array.from(array);
     for (var i = 0; i < checkingArray.length; i++) {
