@@ -3,10 +3,11 @@
 (function () {
 
   var MAX_EFFECT_LEVEL = 100;
-  var FOBOS_EFFECT_LEVEL = 25;
+  var FOBOS_EFFECT_LEVEL = 33;
   var HEAT_EFFECT_LEVEL = 33;
   var MIN_SCALE = 25;
   var MAX_SCALE = 100;
+  var MIN_EFFECT_VALUE = 0;
 
   var effectTypeButtons = window.data.imageForm.querySelectorAll('.effects__radio');
   var lineDepth = window.data.imageForm.querySelector('.effect-level__depth');
@@ -22,6 +23,7 @@
       window.effects.effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
       lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
       uploadImage.style.filter = null;
+      changeEffectLevel(MAX_EFFECT_LEVEL);
     },
     addEffectHandlers: function () {
       for (var i = 0; i < effectTypeButtons.length; i++) {
@@ -46,10 +48,10 @@
       changeScale(scaleControlValue.value);
     },
     levelLineClickHandler: function (evt) {
-      console.log(evt.target);
-      window.effects.effectLevelPin.style.left = evt.offsetX + 'px';
-
-      checkLevelEffect(evt.offsetX);
+      if (evt.target.className === 'effect-level__line' || evt.target.className === 'effect-level__depth') {
+        window.effects.effectLevelPin.style.left = evt.offsetX + 'px';
+        checkLevelEffect(evt.offsetX);
+      }
     },
     pinMoveHandler: function (evt) {
       evt.preventDefault();
@@ -68,12 +70,17 @@
 
         var pinShiftCoord = window.effects.effectLevelPin.offsetLeft - shift;
 
-        if (pinShiftCoord < 0) {
-          pinShiftCoord = 0;
-        }
-        if (pinShiftCoord > 453) {
-          pinShiftCoord = 453;
-        }
+        var getPinMoveLimits = function () {
+          var effectLineWidth = window.effects.effectLevelLine.offsetWidth;
+          if (pinShiftCoord < MIN_EFFECT_VALUE) {
+            pinShiftCoord = MIN_EFFECT_VALUE;
+          }
+          if (pinShiftCoord > effectLineWidth) {
+            pinShiftCoord = effectLineWidth;
+          }
+        };
+
+        getPinMoveLimits();
 
         window.effects.effectLevelPin.style.left = pinShiftCoord + 'px';
 
@@ -86,7 +93,7 @@
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
 
-        // checkLevelEffect(window.effects.effectLevelPin.offsetLeft);
+        checkLevelEffect(window.effects.effectLevelPin.offsetLeft);
 
         if (dragged) {
           var onClickPreventDefault = function () {
@@ -102,13 +109,10 @@
     }
   };
 
-  var checkLevelEffect = function (coordinatePin) {
+  var checkLevelEffect = function (valueX) {
     var effectLineWidth = window.effects.effectLevelLine.offsetWidth;
-    var valueX = coordinatePin;
     effectLevelValue.value = Math.floor(valueX / effectLineWidth * MAX_EFFECT_LEVEL);
-
     lineDepth.style.width = valueX + 'px';
-
     changeEffectLevel(effectLevelValue.value);
   };
 
