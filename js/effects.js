@@ -9,7 +9,6 @@
   var MAX_SCALE = 100;
 
   var effectTypeButtons = window.data.imageForm.querySelectorAll('.effects__radio');
-  var effectLevelPin = window.data.imageForm.querySelector('.effect-level__pin');
   var lineDepth = window.data.imageForm.querySelector('.effect-level__depth');
   var effectLevelValue = window.data.imageForm.querySelector('.effect-level__value');
   var uploadImage = window.data.imageForm.querySelector('.img-upload__preview img');
@@ -17,9 +16,10 @@
 
   window.effects = {
     effectLevelLine: window.data.imageForm.querySelector('.effect-level__line'),
+    effectLevelPin: window.data.imageForm.querySelector('.effect-level__pin'),
     effectLevelSlider: window.data.imageForm.querySelector('.img-upload__effect-level'),
     getEffectDefault: function () {
-      effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
+      window.effects.effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
       lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
       uploadImage.style.filter = null;
     },
@@ -33,16 +33,6 @@
         effectTypeButtons[i].removeEventListener('click', effectClickHandler);
       }
     },
-    pinMoveHandler: function (evt) {
-      var effectLineWidth = window.effects.effectLevelLine.offsetWidth;
-      var valueX = evt.offsetX;
-      effectLevelValue.value = Math.floor(valueX / effectLineWidth * MAX_EFFECT_LEVEL);
-
-      effectLevelPin.style.left = valueX + 'px';
-      lineDepth.style.width = valueX + 'px';
-
-      changeEffectLevel(effectLevelValue.value);
-    },
     scaleSmallerClickHandler: function () {
       if (scaleControlValue.value > MIN_SCALE) {
         scaleControlValue.value = parseInt(scaleControlValue.value, 10) - MIN_SCALE;
@@ -54,7 +44,72 @@
         scaleControlValue.value = parseInt(scaleControlValue.value, 10) + MIN_SCALE;
       }
       changeScale(scaleControlValue.value);
+    },
+    levelLineClickHandler: function (evt) {
+      console.log(evt.target);
+      window.effects.effectLevelPin.style.left = evt.offsetX + 'px';
+
+      checkLevelEffect(evt.offsetX);
+    },
+    pinMoveHandler: function (evt) {
+      evt.preventDefault();
+
+      var startCoord = evt.clientX;
+
+      var dragged = false;
+
+      var onMouseMove = function (moveEvt) {
+        moveEvt.preventDefault();
+        dragged = true;
+
+        var shift = startCoord - moveEvt.clientX;
+
+        startCoord = moveEvt.clientX;
+
+        var pinShiftCoord = window.effects.effectLevelPin.offsetLeft - shift;
+
+        if (pinShiftCoord < 0) {
+          pinShiftCoord = 0;
+        }
+        if (pinShiftCoord > 453) {
+          pinShiftCoord = 453;
+        }
+
+        window.effects.effectLevelPin.style.left = pinShiftCoord + 'px';
+
+        checkLevelEffect(pinShiftCoord);
+      };
+
+      var onMouseUp = function (upEvt) {
+        upEvt.preventDefault();
+
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+
+        // checkLevelEffect(window.effects.effectLevelPin.offsetLeft);
+
+        if (dragged) {
+          var onClickPreventDefault = function () {
+            evt.preventDefault();
+            window.effects.effectLevelPin.removeEventListener('click', onClickPreventDefault);
+          };
+          window.effects.effectLevelPin.addEventListener('click', onClickPreventDefault);
+        }
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     }
+  };
+
+  var checkLevelEffect = function (coordinatePin) {
+    var effectLineWidth = window.effects.effectLevelLine.offsetWidth;
+    var valueX = coordinatePin;
+    effectLevelValue.value = Math.floor(valueX / effectLineWidth * MAX_EFFECT_LEVEL);
+
+    lineDepth.style.width = valueX + 'px';
+
+    changeEffectLevel(effectLevelValue.value);
   };
 
   var effectClickHandler = function (evt) {
@@ -108,51 +163,5 @@
   };
 
   scaleControlValue.value = MAX_SCALE;
-
-
-// Перемещение метки
-// Этип переменные заданы выше:
-// var effectLevelPin = window.data.imageForm.querySelector('.effect-level__pin');
-// var lineDepth = window.data.imageForm.querySelector('.effect-level__depth');
-// var effectLevelValue = window.data.imageForm.querySelector('.effect-level__value');
-
-  effectLevelPin.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
-
-    var startCoord = evt.clientX;
-
-    var dragged = false;
-
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      dragged = true;
-
-      var shift = startCoord - moveEvt.clientX;
-
-      startCoord = moveEvt.clientX;
-
-      effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + 'px';
-
-    };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-
-      if (dragged) {
-        var onClickPreventDefault = function () {
-          evt.preventDefault();
-          effectLevelPin.removeEventListener('click', onClickPreventDefault);
-        };
-        effectLevelPin.addEventListener('click', onClickPreventDefault);
-      }
-
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
 
 })();
