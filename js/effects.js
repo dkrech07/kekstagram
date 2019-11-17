@@ -4,7 +4,8 @@
 
   var MAX_EFFECT_LEVEL = 100;
   var FOBOS_EFFECT_LEVEL = 33;
-  var HEAT_EFFECT_LEVEL = 33;
+  var HEAT_EFFECT_LEVEL = 50;
+  var HEAT_EFFECT_CORRECTION = 0.5;
   var MIN_SCALE = 25;
   var MAX_SCALE = 100;
   var MIN_EFFECT_VALUE = 0;
@@ -154,11 +155,11 @@
     }
 
     if (checkedEffect === 'phobos') {
-      uploadImage.style.filter = 'blur' + '(' + Math.floor(value / FOBOS_EFFECT_LEVEL) + 'px)';
+      uploadImage.style.filter = 'blur' + '(' + Math.round(value / FOBOS_EFFECT_LEVEL) + 'px)';
     }
 
     if (checkedEffect === 'heat') {
-      uploadImage.style.filter = 'brightness' + '(' + Math.ceil(value / HEAT_EFFECT_LEVEL) + ')';
+      uploadImage.style.filter = 'brightness' + '(' + Math.ceil(value / HEAT_EFFECT_LEVEL + HEAT_EFFECT_CORRECTION) + ')';
     }
   };
 
