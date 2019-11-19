@@ -61,6 +61,32 @@
   photosContainer.addEventListener('click', photoClickHandler);
   photosContainer.addEventListener('keydown', photoEnterHandler);
 
-  window.drawPhotos();
-  markPhotos();
+  // Запрос данных с сервера
+  var successHandler = function (photosArray) {
+    window.drawPhotos(photosArray);
+    markPhotos();
+
+  };
+
+  var getErrorMessage = function () {
+    var template = document.querySelector('#error').content.querySelector('.error');
+    var element = template.cloneNode(true);
+
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(element);
+
+    return fragment;
+  };
+
+  var errorHandler = function (error) {
+    var main = document.querySelector('main');
+    main.appendChild(getErrorMessage());
+
+    var errorWrapper = document.querySelector('.error__inner');
+    var message = document.createElement('p');
+    message.textContent = error;
+    errorWrapper.appendChild(message);
+  };
+
+  window.backend.load(successHandler, errorHandler);
 })();

@@ -2,12 +2,12 @@
 // picture.js — модуль для отрисовки миниатюры;
 (function () {
 
-  window.drawPhotos = function () {
+  window.drawPhotos = function (photosArray) {
     var pictures = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < window.data.PHOTOS_NUMBER; i++) {
-      var photo = getPhoto(window.data.getPhotosArray()[i]);
+      var photo = getPhoto(photosArray[i]);
       fragment.appendChild(photo);
     }
 
