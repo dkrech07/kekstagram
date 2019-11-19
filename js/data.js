@@ -31,19 +31,19 @@
   window.data = {
     PHOTOS_NUMBER: 25,
     imageForm: document.querySelector('.img-upload__overlay'),
-    getPhotosArray: function () {
-      var photosArray = [];
-      for (var i = 0; i < this.PHOTOS_NUMBER; i++) {
-        var photo = {
-          url: 'photos/' + (i + 1) + '.jpg',
-          description: getRandomDescription(),
-          likes: getRandomLikes(),
-          comments: getAllCommenst()
-        };
-        photosArray.push(photo);
-      }
-      return photosArray;
-    }
+    // getPhotosArray: function () {
+    //   var photosArray = [];
+    //   for (var i = 0; i < this.PHOTOS_NUMBER; i++) {
+    //     var photo = {
+    //       url: 'photos/' + (i + 1) + '.jpg',
+    //       description: getRandomDescription(),
+    //       likes: getRandomLikes(),
+    //       comments: getAllCommenst()
+    //     };
+    //     photosArray.push(photo);
+    //   }
+    //   return photosArray;
+    // }
   };
 
   var getRandom = function (number) {

@@ -33,39 +33,43 @@
     }
   };
 
-  var addPhotoHandle = function (photoId) {
+  var addPhotoHandle = function (photosArray, photoId) {
     if (photoId || photoId === 0) {
-      window.preview.drawBigPicture(photoId);
+      window.preview.drawBigPicture(photosArray, photoId);
 
       closeBigPictureButton.addEventListener('click', bigPictureCloseHandler);
       document.addEventListener('keydown', bigPictureEscHandler);
     }
   };
 
-  var photoClickHandler = function (evt) {
-    var target = evt.target;
-    var photoId = parseInt(target.parentElement.id, 10);
+  var addBigPhotoHandlers = function (photosArray) {
 
-    addPhotoHandle(photoId);
-  };
-
-  var photoEnterHandler = function (evt) {
-    if (evt.keyCode === window.gallery.ENTER_KEYCODE) {
+    var photoClickHandler = function (evt) {
       var target = evt.target;
-      var photoId = parseInt(target.id, 10);
+      var photoId = parseInt(target.parentElement.id, 10);
 
-      addPhotoHandle(photoId);
-    }
+      addPhotoHandle(photosArray, photoId);
+    };
+
+    var photoEnterHandler = function (evt) {
+      if (evt.keyCode === window.gallery.ENTER_KEYCODE) {
+        var target = evt.target;
+        var photoId = parseInt(target.id, 10);
+
+        addPhotoHandle(photosArray, photoId);
+      }
+    };
+
+    photosContainer.addEventListener('click', photoClickHandler);
+    photosContainer.addEventListener('keydown', photoEnterHandler);
   };
 
-  photosContainer.addEventListener('click', photoClickHandler);
-  photosContainer.addEventListener('keydown', photoEnterHandler);
 
   // Запрос данных с сервера
   var successHandler = function (photosArray) {
     window.drawPhotos(photosArray);
     markPhotos();
-
+    addBigPhotoHandlers(photosArray);
   };
 
   var getErrorMessage = function () {

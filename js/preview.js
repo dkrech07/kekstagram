@@ -17,9 +17,9 @@
     commentsLoader.classList.add('visually-hidden');
   };
 
-  var drawBigPicture = function (number) {
+  var drawBigPicture = function (photosArray, number) {
     window.preview.bigPicture.classList.remove('hidden');
-    var element = window.data.getPhotosArray()[number];
+    var element = photosArray[number];
 
     drawPhotoInformation(number, element);
     drawCommentInformation(number, element);
