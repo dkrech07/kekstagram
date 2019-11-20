@@ -7,9 +7,9 @@
   var HASHTAGS_NUMBER = 5;
   var HASHTAG_LENGTH = 20;
 
-  var uploadForm = document.querySelector('.img-upload__form');
-  var hashtagsInput = uploadForm.querySelector('.text__hashtags');
-  var formCommentInput = uploadForm.querySelector('.text__description');
+
+  var hashtagsInput = window.preview.uploadForm.querySelector('.text__hashtags');
+  var formCommentInput = window.preview.uploadForm.querySelector('.text__description');
   var hashtagsArray = [];
   var hashtagsErrorMessage = '';
 

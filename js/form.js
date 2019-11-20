@@ -26,6 +26,7 @@
     closeFormButton.removeEventListener('click', removeChangeHandler);
     document.removeEventListener('keydown', closeFormEscHandler);
     uploadButton.value = null;
+    window.preview.uploadForm.reset();
   };
 
   var uploadChangeHandler = function () {
