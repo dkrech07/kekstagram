@@ -3,10 +3,10 @@
 (function () {
 
   var uploadButton = document.querySelector('#upload-file');
-  var closeFormButton = window.data.imageForm.querySelector('.img-upload__cancel');
+  var closeFormButton = window.preview.imageForm.querySelector('.img-upload__cancel');
 
-  var scaleControlSmaller = window.data.imageForm.querySelector('.scale__control--smaller');
-  var scaleControlBigger = window.data.imageForm.querySelector('.scale__control--bigger');
+  var scaleControlSmaller = window.preview.imageForm.querySelector('.scale__control--smaller');
+  var scaleControlBigger = window.preview.imageForm.querySelector('.scale__control--bigger');
 
   var closeFormEscHandler = function (evt) {
     if (evt.keyCode === window.gallery.ESC_KEYCODE) {
@@ -15,7 +15,7 @@
   };
 
   var removeChangeHandler = function () {
-    window.data.imageForm.classList.add('hidden');
+    window.preview.imageForm.classList.add('hidden');
     window.message.removeCommentHandlers();
     window.message.removeHashtagsHandlers();
     window.effects.removeEffectHandlers();
@@ -29,7 +29,7 @@
   };
 
   var uploadChangeHandler = function () {
-    window.data.imageForm.classList.remove('hidden');
+    window.preview.imageForm.classList.remove('hidden');
     window.message.addCommentHandlers();
     window.message.addHashtagsHandlers();
     window.effects.addEffectHandlers();

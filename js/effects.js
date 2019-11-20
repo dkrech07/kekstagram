@@ -10,16 +10,16 @@
   var MAX_SCALE = 100;
   var MIN_EFFECT_VALUE = 0;
 
-  var effectTypeButtons = window.data.imageForm.querySelectorAll('.effects__radio');
-  var lineDepth = window.data.imageForm.querySelector('.effect-level__depth');
-  var effectLevelValue = window.data.imageForm.querySelector('.effect-level__value');
-  var uploadImage = window.data.imageForm.querySelector('.img-upload__preview img');
-  var scaleControlValue = window.data.imageForm.querySelector('.scale__control--value');
+  var effectTypeButtons = window.preview.imageForm.querySelectorAll('.effects__radio');
+  var lineDepth = window.preview.imageForm.querySelector('.effect-level__depth');
+  var effectLevelValue = window.preview.imageForm.querySelector('.effect-level__value');
+  var uploadImage = window.preview.imageForm.querySelector('.img-upload__preview img');
+  var scaleControlValue = window.preview.imageForm.querySelector('.scale__control--value');
 
   window.effects = {
-    effectLevelLine: window.data.imageForm.querySelector('.effect-level__line'),
-    effectLevelPin: window.data.imageForm.querySelector('.effect-level__pin'),
-    effectLevelSlider: window.data.imageForm.querySelector('.img-upload__effect-level'),
+    effectLevelLine: window.preview.imageForm.querySelector('.effect-level__line'),
+    effectLevelPin: window.preview.imageForm.querySelector('.effect-level__pin'),
+    effectLevelSlider: window.preview.imageForm.querySelector('.img-upload__effect-level'),
     getEffectDefault: function () {
       window.effects.effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
       lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
@@ -135,7 +135,7 @@
   };
 
   var changeEffectLevel = function (value) {
-    var effectButtonActive = window.data.imageForm.querySelector('input[name="effect"]:checked');
+    var effectButtonActive = window.preview.imageForm.querySelector('input[name="effect"]:checked');
     var checkedEffect = effectButtonActive.value;
 
     if (checkedEffect === 'none') {

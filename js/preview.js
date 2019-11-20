@@ -60,6 +60,7 @@
   };
 
   window.preview = {
+    imageForm: document.querySelector('.img-upload__overlay'),
     bigPicture: bigPicture,
     drawBigPicture: drawBigPicture
   };
