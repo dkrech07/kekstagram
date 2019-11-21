@@ -60,8 +60,6 @@
   };
 
   window.preview = {
-    imageForm: document.querySelector('.img-upload__overlay'),
-    uploadForm:document.querySelector('.img-upload__form'),
     bigPicture: bigPicture,
     drawBigPicture: drawBigPicture
   };

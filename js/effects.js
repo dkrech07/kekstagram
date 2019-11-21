@@ -10,104 +10,120 @@
   var MAX_SCALE = 100;
   var MIN_EFFECT_VALUE = 0;
 
-  var effectTypeButtons = window.preview.imageForm.querySelectorAll('.effects__radio');
-  var lineDepth = window.preview.imageForm.querySelector('.effect-level__depth');
-  var effectLevelValue = window.preview.imageForm.querySelector('.effect-level__value');
-  var uploadImage = window.preview.imageForm.querySelector('.img-upload__preview img');
-  var scaleControlValue = window.preview.imageForm.querySelector('.scale__control--value');
+  var imageForm = document.querySelector('.img-upload__overlay');
+  var effectTypeButtons = imageForm.querySelectorAll('.effects__radio');
+  var lineDepth = imageForm.querySelector('.effect-level__depth');
+  var effectLevelValue = imageForm.querySelector('.effect-level__value');
+  var uploadImage = imageForm.querySelector('.img-upload__preview img');
+  var scaleControlValue = imageForm.querySelector('.scale__control--value');
 
-  window.effects = {
-    effectLevelLine: window.preview.imageForm.querySelector('.effect-level__line'),
-    effectLevelPin: window.preview.imageForm.querySelector('.effect-level__pin'),
-    effectLevelSlider: window.preview.imageForm.querySelector('.img-upload__effect-level'),
-    getEffectDefault: function () {
-      window.effects.effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
-      lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
-      uploadImage.style.filter = null;
-      changeEffectLevel(MAX_EFFECT_LEVEL);
-    },
-    addEffectHandlers: function () {
-      for (var i = 0; i < effectTypeButtons.length; i++) {
-        effectTypeButtons[i].addEventListener('click', effectClickHandler);
-      }
-    },
-    removeEffectHandlers: function () {
-      for (var i = 0; i < effectTypeButtons.length; i++) {
-        effectTypeButtons[i].removeEventListener('click', effectClickHandler);
-      }
-    },
-    scaleSmallerClickHandler: function () {
-      if (scaleControlValue.value > MIN_SCALE) {
-        scaleControlValue.value = parseInt(scaleControlValue.value, 10) - MIN_SCALE;
-      }
-      changeScale(scaleControlValue.value);
-    },
-    scaleBiggerClickHandler: function () {
-      if (scaleControlValue.value < MAX_SCALE) {
-        scaleControlValue.value = parseInt(scaleControlValue.value, 10) + MIN_SCALE;
-      }
-      changeScale(scaleControlValue.value);
-    },
-    levelLineClickHandler: function (evt) {
-      if (evt.target.className === 'effect-level__line' || evt.target.className === 'effect-level__depth') {
-        window.effects.effectLevelPin.style.left = evt.offsetX + 'px';
-        checkLevelEffect(evt.offsetX);
-      }
-    },
-    pinMoveHandler: function (evt) {
-      evt.preventDefault();
+  var getEffectDefault = function () {
+    window.effects.effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
+    lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
+    uploadImage.style.filter = null;
+    changeEffectLevel(MAX_EFFECT_LEVEL);
+  };
 
-      var startCoord = evt.clientX;
+  var addEffectHandlers = function () {
+    for (var i = 0; i < effectTypeButtons.length; i++) {
+      effectTypeButtons[i].addEventListener('click', effectClickHandler);
+    }
+  };
 
-      var dragged = false;
+  var removeEffectHandlers = function () {
+    for (var i = 0; i < effectTypeButtons.length; i++) {
+      effectTypeButtons[i].removeEventListener('click', effectClickHandler);
+    }
+  };
 
-      var onMouseMove = function (moveEvt) {
-        moveEvt.preventDefault();
-        dragged = true;
+  var scaleSmallerClickHandler = function () {
+    if (scaleControlValue.value > MIN_SCALE) {
+      scaleControlValue.value = parseInt(scaleControlValue.value, 10) - MIN_SCALE;
+    }
+    changeScale(scaleControlValue.value);
+  };
 
-        var shift = startCoord - moveEvt.clientX;
+  var scaleBiggerClickHandler = function () {
+    if (scaleControlValue.value < MAX_SCALE) {
+      scaleControlValue.value = parseInt(scaleControlValue.value, 10) + MIN_SCALE;
+    }
+    changeScale(scaleControlValue.value);
+  };
 
-        startCoord = moveEvt.clientX;
+  var levelLineClickHandler = function (evt) {
+    if (evt.target.className === 'effect-level__line' || evt.target.className === 'effect-level__depth') {
+      window.effects.effectLevelPin.style.left = evt.offsetX + 'px';
+      checkLevelEffect(evt.offsetX);
+    }
+  };
 
-        var pinShiftCoord = window.effects.effectLevelPin.offsetLeft - shift;
+  var pinMoveHandler = function (evt) {
+    evt.preventDefault();
 
-        var getPinMoveLimits = function () {
-          var effectLineWidth = window.effects.effectLevelLine.offsetWidth;
-          if (pinShiftCoord < MIN_EFFECT_VALUE) {
-            pinShiftCoord = MIN_EFFECT_VALUE;
-          }
-          if (pinShiftCoord > effectLineWidth) {
-            pinShiftCoord = effectLineWidth;
-          }
-        };
+    var startCoord = evt.clientX;
 
-        getPinMoveLimits();
+    var dragged = false;
 
-        window.effects.effectLevelPin.style.left = pinShiftCoord + 'px';
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
 
-        checkLevelEffect(pinShiftCoord);
-      };
+      var shift = startCoord - moveEvt.clientX;
 
-      var onMouseUp = function (upEvt) {
-        upEvt.preventDefault();
+      startCoord = moveEvt.clientX;
 
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
+      var pinShiftCoord = window.effects.effectLevelPin.offsetLeft - shift;
 
-        checkLevelEffect(window.effects.effectLevelPin.offsetLeft);
-
-        if (dragged) {
-          var onClickPreventDefault = function () {
-            evt.preventDefault();
-            window.effects.effectLevelPin.removeEventListener('click', onClickPreventDefault);
-          };
-          window.effects.effectLevelPin.addEventListener('click', onClickPreventDefault);
+      var getPinMoveLimits = function () {
+        var effectLineWidth = window.effects.effectLevelLine.offsetWidth;
+        if (pinShiftCoord < MIN_EFFECT_VALUE) {
+          pinShiftCoord = MIN_EFFECT_VALUE;
+        }
+        if (pinShiftCoord > effectLineWidth) {
+          pinShiftCoord = effectLineWidth;
         }
       };
 
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    }
+      getPinMoveLimits();
+
+      window.effects.effectLevelPin.style.left = pinShiftCoord + 'px';
+
+      checkLevelEffect(pinShiftCoord);
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      checkLevelEffect(window.effects.effectLevelPin.offsetLeft);
+
+      if (dragged) {
+        var onClickPreventDefault = function () {
+          evt.preventDefault();
+          window.effects.effectLevelPin.removeEventListener('click', onClickPreventDefault);
+        };
+        window.effects.effectLevelPin.addEventListener('click', onClickPreventDefault);
+      }
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
+  window.effects = {
+    imageForm: imageForm,
+    effectLevelLine: imageForm.querySelector('.effect-level__line'),
+    effectLevelPin: imageForm.querySelector('.effect-level__pin'),
+    effectLevelSlider: imageForm.querySelector('.img-upload__effect-level'),
+    getEffectDefault: getEffectDefault,
+    addEffectHandlers: addEffectHandlers,
+    removeEffectHandlers: removeEffectHandlers,
+    scaleSmallerClickHandler: scaleSmallerClickHandler,
+    scaleBiggerClickHandler: scaleBiggerClickHandler,
+    levelLineClickHandler: levelLineClickHandler,
+    pinMoveHandler: pinMoveHandler
   };
 
   var checkLevelEffect = function (valueX) {
@@ -135,7 +151,7 @@
   };
 
   var changeEffectLevel = function (value) {
-    var effectButtonActive = window.preview.imageForm.querySelector('input[name="effect"]:checked');
+    var effectButtonActive = imageForm.querySelector('input[name="effect"]:checked');
     var checkedEffect = effectButtonActive.value;
 
     if (checkedEffect === 'none') {
