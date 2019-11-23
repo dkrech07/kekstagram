@@ -17,6 +17,8 @@
   var resetUploadForm = function () {
     window.effects.getScaleDefault();
     window.effects.getEffectDefault();
+    uploadButton.value = null;
+    window.message.uploadForm.reset();
     window.effects.effectLevelSlider.classList.add('hidden');
   };
 
@@ -31,9 +33,8 @@
     window.effects.effectLevelLine.removeEventListener('mouseup', window.effects.levelLineClickHandler);
     closeFormButton.removeEventListener('click', removeChangeHandler);
     document.removeEventListener('keydown', closeFormEscHandler);
-    uploadButton.value = null;
-    window.message.uploadForm.reset();
     resetUploadForm();
+    uploadButton.addEventListener('change', uploadChangeHandler);
   };
 
   var uploadChangeHandler = function () {
@@ -47,10 +48,10 @@
     window.effects.effectLevelLine.addEventListener('mouseup', window.effects.levelLineClickHandler);
     closeFormButton.addEventListener('click', removeChangeHandler);
     document.addEventListener('keydown', closeFormEscHandler);
-    resetUploadForm();
+    window.effects.getScaleDefault();
+    window.effects.getEffectDefault();
+    uploadButton.removeEventListener('change', uploadChangeHandler);
   };
-
-  uploadButton.addEventListener('change', uploadChangeHandler);
 
   // Отправка данных на сервер
   var uploadHandler = function () {
@@ -61,5 +62,7 @@
     window.backend.upload(new FormData(window.message.uploadForm), uploadHandler);
     evt.preventDefault();
   });
+
+  uploadButton.addEventListener('change', uploadChangeHandler);
 
 })();
