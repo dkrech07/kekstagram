@@ -21,6 +21,7 @@
     window.effects.effectLevelPin.style.left = MAX_EFFECT_LEVEL + '%';
     lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
     uploadImage.style.filter = null;
+    uploadImage.classList = '';
     changeEffectLevel(MAX_EFFECT_LEVEL);
   };
 
@@ -47,6 +48,11 @@
     if (scaleControlValue.value < MAX_SCALE) {
       scaleControlValue.value = parseInt(scaleControlValue.value, 10) + MIN_SCALE;
     }
+    changeScale(scaleControlValue.value);
+  };
+
+  var getScaleDefault = function () {
+    scaleControlValue.value = MAX_SCALE;
     changeScale(scaleControlValue.value);
   };
 
@@ -123,7 +129,8 @@
     scaleSmallerClickHandler: scaleSmallerClickHandler,
     scaleBiggerClickHandler: scaleBiggerClickHandler,
     levelLineClickHandler: levelLineClickHandler,
-    pinMoveHandler: pinMoveHandler
+    pinMoveHandler: pinMoveHandler,
+    getScaleDefault: getScaleDefault
   };
 
   var checkLevelEffect = function (valueX) {

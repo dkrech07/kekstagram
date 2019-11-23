@@ -15,6 +15,7 @@
   };
 
   var resetUploadForm = function () {
+    window.effects.getScaleDefault();
     window.effects.getEffectDefault();
     window.effects.effectLevelSlider.classList.add('hidden');
   };
