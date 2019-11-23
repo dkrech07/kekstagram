@@ -1,6 +1,6 @@
 'use strict';
 // form.js — модуль, который работает с формой редактирования изображения.
-(function() {
+(function () {
 
   var uploadButton = document.querySelector('#upload-file');
   var closeFormButton = window.effects.imageForm.querySelector('.img-upload__cancel');
@@ -8,13 +8,18 @@
   var scaleControlSmaller = window.effects.imageForm.querySelector('.scale__control--smaller');
   var scaleControlBigger = window.effects.imageForm.querySelector('.scale__control--bigger');
 
-  var closeFormEscHandler = function(evt) {
+  var closeFormEscHandler = function (evt) {
     if (evt.keyCode === window.gallery.ESC_KEYCODE) {
       removeChangeHandler();
     }
   };
 
-  var removeChangeHandler = function() {
+  var resetUploadForm = function () {
+    window.effects.getEffectDefault();
+    window.effects.effectLevelSlider.classList.add('hidden');
+  };
+
+  var removeChangeHandler = function () {
     window.effects.imageForm.classList.add('hidden');
     window.message.removeCommentHandlers();
     window.message.removeHashtagsHandlers();
@@ -27,9 +32,10 @@
     document.removeEventListener('keydown', closeFormEscHandler);
     uploadButton.value = null;
     window.message.uploadForm.reset();
+    resetUploadForm();
   };
 
-  var uploadChangeHandler = function() {
+  var uploadChangeHandler = function () {
     window.effects.imageForm.classList.remove('hidden');
     window.message.addCommentHandlers();
     window.message.addHashtagsHandlers();
@@ -40,19 +46,19 @@
     window.effects.effectLevelLine.addEventListener('mouseup', window.effects.levelLineClickHandler);
     closeFormButton.addEventListener('click', removeChangeHandler);
     document.addEventListener('keydown', closeFormEscHandler);
+    resetUploadForm();
   };
 
-  window.effects.getEffectDefault();
-  window.effects.effectLevelSlider.classList.add('hidden');
   uploadButton.addEventListener('change', uploadChangeHandler);
 
-console.log(window.effects.imageForm);
-  // window.effects.imageForm.addEventListener('submit', function(evt) {
-  //   window.backend.upload(new FormData(form), function(response) {
-  //     console.log('ok');
-  //     window.effects.imageForm.classList.add('hidden');
-  //   });
-  //   evt.preventDefault();
-  // });
+  // Отправка данных на сервер
+  var uploadHandler = function () {
+    removeChangeHandler();
+  };
+
+  window.message.uploadForm.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(window.message.uploadForm), uploadHandler);
+    evt.preventDefault();
+  });
 
 })();
