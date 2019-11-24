@@ -53,13 +53,26 @@
     uploadButton.removeEventListener('change', uploadChangeHandler);
   };
 
-  // Отправка данных на сервер
+  // Сообщение об успешной отправке данных на сервер;
+  var generateSuccessMessage = function () {
+    var template = document.querySelector('#success').content.querySelector('.success');
+    var element = template.cloneNode(true);
+
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(element);
+
+    var main = document.querySelector('main');
+    main.appendChild(fragment);
+  };
+
+  // Отправка данных на сервер;
   var uploadHandler = function () {
     removeChangeHandler();
+    generateSuccessMessage();
   };
 
   window.message.uploadForm.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(window.message.uploadForm), uploadHandler);
+    window.backend.upload(new FormData(window.message.uploadForm), uploadHandler, window.gallery.generateErrorMessage);
     evt.preventDefault();
   });
 
