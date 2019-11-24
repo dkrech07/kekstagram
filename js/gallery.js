@@ -7,6 +7,7 @@
 
   var closeBigPictureButton = window.preview.bigPicture.querySelector('.big-picture__cancel');
   var photosContainer = document.querySelector('.pictures');
+  var imageFilters = document.querySelector('.img-filters');
 
   var markPhotos = function () {
     var allPhotos = photosContainer.querySelectorAll('.picture');
@@ -62,11 +63,18 @@
     photosContainer.addEventListener('keydown', photoEnterHandler);
   };
 
+  // Фильтрация изображений;
+
+  var filteringImages = function () {
+    imageFilters.classList.remove('img-filters--inactive');
+  };
+
   // Запрос данных с сервера;
   var successLoadHandler = function (photosArray) {
     window.drawPhotos(photosArray);
     markPhotos();
     addBigPhotoHandlers(photosArray);
+    filteringImages();
   };
 
   // Обработчики закрытия сообщения об ошибке загрузке / отправке данных;
