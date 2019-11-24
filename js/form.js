@@ -65,14 +65,45 @@
     main.appendChild(fragment);
   };
 
+  // Обработчики закрытия сообщения о успешной отправке данных на сервер;
+  var addSuccessMessageHandlers = function () {
+    var successMessage = document.querySelector('.success');
+    var successButton = successMessage.querySelector('.success__button');
+
+    var messageButtonClickHandler = function () {
+      successMessage.remove();
+      reomveMessageButtonHandlers();
+    };
+
+    var messageButtonEscHandler = function (evt) {
+      if (evt.keyCode === window.gallery.ESC_KEYCODE) {
+        messageButtonClickHandler();
+      }
+    };
+
+    successButton.addEventListener('click', messageButtonClickHandler);
+    document.addEventListener('keydown', messageButtonEscHandler);
+
+    var reomveMessageButtonHandlers = function () {
+      successButton.removeEventListener('click', messageButtonClickHandler);
+      document.removeEventListener('keydown', messageButtonEscHandler);
+    };
+  };
+
   // Отправка данных на сервер;
-  var uploadHandler = function () {
+  var successUploadHandler = function () {
     removeChangeHandler();
     generateSuccessMessage();
+    addSuccessMessageHandlers();
+  };
+
+  var errorUploadHander = function () {
+    window.gallery.errorLoadHandler();
+    removeChangeHandler();
   };
 
   window.message.uploadForm.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(window.message.uploadForm), uploadHandler, window.gallery.generateErrorMessage);
+    window.backend.upload(new FormData(window.message.uploadForm), successUploadHandler, errorUploadHander);
     evt.preventDefault();
   });
 

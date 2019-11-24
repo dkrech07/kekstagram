@@ -63,7 +63,7 @@
   };
 
   // Запрос данных с сервера;
-  var successHandler = function (photosArray) {
+  var successLoadHandler = function (photosArray) {
     window.drawPhotos(photosArray);
     markPhotos();
     addBigPhotoHandlers(photosArray);
@@ -80,7 +80,7 @@
     return fragment;
   };
 
-  var generateErrorMessage = function (error) {
+  var errorLoadHandler = function (error) {
     var main = document.querySelector('main');
     main.appendChild(getErrorMessage());
 
@@ -90,11 +90,11 @@
     errorWrapper.appendChild(message);
   };
 
-  window.backend.load(successHandler, generateErrorMessage);
+  window.backend.load(successLoadHandler, errorLoadHandler);
 
   window.gallery = {
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
-    generateErrorMessage: generateErrorMessage
+    errorLoadHandler: errorLoadHandler
   };
 })();
