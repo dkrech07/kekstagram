@@ -69,6 +69,39 @@
     addBigPhotoHandlers(photosArray);
   };
 
+  // Обработчики закрытия сообщения об ошибке загрузке / отправке данных;
+  var addErrorMessageHandlers = function () {
+    var errorMessage = document.querySelector('.error');
+    var errorButton = errorMessage.querySelector('.error__button');
+
+    var errorMessageClickHandler = function () {
+      errorMessage.remove();
+      removeErrorButtonHandlers();
+    };
+
+    var messageButtonEscHandler = function (evt) {
+      if (evt.keyCode === window.gallery.ESC_KEYCODE) {
+        errorMessageClickHandler();
+      }
+    };
+
+    var windowClickHandler = function (evt) {
+      if (evt.target.className === 'error') {
+        errorMessageClickHandler();
+      }
+    };
+
+    errorButton.addEventListener('click', errorMessageClickHandler);
+    document.addEventListener('keydown', messageButtonEscHandler);
+    document.addEventListener('click', windowClickHandler);
+
+    var removeErrorButtonHandlers = function () {
+      errorButton.removeEventListener('click', errorMessageClickHandler);
+      document.removeEventListener('keydown', messageButtonEscHandler);
+      document.removeEventListener('click', windowClickHandler);
+    };
+  };
+
   // Сообщение об ошибке при загрузке данных с сервера;
   var getErrorMessage = function () {
     var template = document.querySelector('#error').content.querySelector('.error');
@@ -80,6 +113,7 @@
     return fragment;
   };
 
+  // Кастомизация сообщения об ошибке;
   var errorLoadHandler = function (error) {
     var main = document.querySelector('main');
     main.appendChild(getErrorMessage());
@@ -88,6 +122,8 @@
     var message = document.createElement('p');
     message.textContent = error;
     errorWrapper.appendChild(message);
+
+    addErrorMessageHandlers();
   };
 
   window.backend.load(successLoadHandler, errorLoadHandler);

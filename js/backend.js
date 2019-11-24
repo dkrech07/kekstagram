@@ -29,7 +29,7 @@
       xhr.send();
     },
     upload: function (data, onSuccess, onError) {
-      var URL = 'https://js.dump.academy/kekstagram';
+      var URL = 'https://js.dump.academy/kekstagram2';
 
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';

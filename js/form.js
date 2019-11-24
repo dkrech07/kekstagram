@@ -70,23 +70,31 @@
     var successMessage = document.querySelector('.success');
     var successButton = successMessage.querySelector('.success__button');
 
-    var messageButtonClickHandler = function () {
+    var successMessageClickHandler = function () {
       successMessage.remove();
       reomveMessageButtonHandlers();
     };
 
     var messageButtonEscHandler = function (evt) {
       if (evt.keyCode === window.gallery.ESC_KEYCODE) {
-        messageButtonClickHandler();
+        successMessageClickHandler();
       }
     };
 
-    successButton.addEventListener('click', messageButtonClickHandler);
+    var windowClickHandler = function (evt) {
+      if (evt.target.className === 'success') {
+        successMessageClickHandler();
+      }
+    };
+
+    successButton.addEventListener('click', successMessageClickHandler);
     document.addEventListener('keydown', messageButtonEscHandler);
+    document.addEventListener('click', windowClickHandler);
 
     var reomveMessageButtonHandlers = function () {
-      successButton.removeEventListener('click', messageButtonClickHandler);
+      successButton.removeEventListener('click', successMessageClickHandler);
       document.removeEventListener('keydown', messageButtonEscHandler);
+      document.removeEventListener('click', windowClickHandler);
     };
   };
 
