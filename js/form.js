@@ -39,6 +39,7 @@
 
   var uploadChangeHandler = function () {
     window.effects.imageForm.classList.remove('hidden');
+    window.effects.effectLevelSlider.classList.add('hidden');
     window.message.addCommentHandlers();
     window.message.addHashtagsHandlers();
     window.effects.addEffectHandlers();
