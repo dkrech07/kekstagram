@@ -7,10 +7,6 @@
 
   var closeBigPictureButton = window.preview.bigPicture.querySelector('.big-picture__cancel');
   var photosContainer = document.querySelector('.pictures');
-  var imageFilters = document.querySelector('.img-filters');
-  var popularButton = imageFilters.querySelector('#filter-popular');
-  var randomButton = imageFilters.querySelector('#filter-random');
-  var discussedButton = imageFilters.querySelector('#filter-discussed');
 
   var markPhotos = function () {
     var allPhotos = photosContainer.querySelectorAll('.picture');
@@ -66,35 +62,12 @@
     photosContainer.addEventListener('keydown', photoEnterHandler);
   };
 
-  // Фильтрация изображений;
-  var filteringImages = function () {
-    imageFilters.classList.remove('img-filters--inactive');
-  };
-
-  var filterClickHandler =  function (evt) {
-    // var activeButtons = imageFilters.querySelectorAll('.img-filters__button');
-    //
-    // console.log(activeButtons);
-    //
-    // for (var i = 0; i < activeButtons.legnth; i++) {
-    //   activeButtons.classList.remove('.img-filters__button--active');
-    // }
-
-    var target = evt.target;
-    target.classList.add('img-filters__button--active');
-    console.log(target);
-  };
-
-  popularButton.addEventListener('click', filterClickHandler);
-  randomButton.addEventListener('click', filterClickHandler);
-  discussedButton.addEventListener('click', filterClickHandler);
-
   // Запрос данных с сервера;
   var successLoadHandler = function (photosArray) {
     window.drawPhotos(photosArray);
     markPhotos();
     addBigPhotoHandlers(photosArray);
-    filteringImages();
+    window.updatePhotos(photosArray);
   };
 
   // Обработчики закрытия сообщения об ошибке загрузке / отправке данных;
