@@ -8,7 +8,7 @@
     var pictures = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < PHOTOS_NUMBER; i++) {
+    for (var i = 0; i < photosArray.length; i++) {
       var photo = getPhoto(photosArray[i]);
       fragment.appendChild(photo);
     }

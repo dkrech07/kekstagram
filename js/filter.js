@@ -6,6 +6,21 @@
   var randomButton = imageFilters.querySelector('#filter-random');
   var discussedButton = imageFilters.querySelector('#filter-discussed');
 
+  var getRandomPhotosArray = function (photosArray) {
+    var compareRandom = function () {
+      return Math.random() - 0.5;
+    };
+
+    return photosArray.sort(compareRandom);
+  };
+
+  var removePhotos = function () {
+    var photos = document.querySelectorAll('.picture');
+    for (var i = 0; i < photos.length; i++) {
+      photos[i].remove();
+    }
+  };
+
   window.updatePhotos = function (photosArray) {
     // Фильтрация изображений;
     var filteringImages = function () {
@@ -13,22 +28,25 @@
     };
 
     var filterClickHandler = function (evt) {
+      var filteredPhotos = photosArray;
       var activeButton = imageFilters.querySelector('.img-filters__button--active');
       var target = evt.target;
       var filter = evt.target.id;
       activeButton.classList.remove('img-filters__button--active');
 
       target.classList.add('img-filters__button--active');
-      var filteredPhotos = photosArray;
 
       if (filter === 'filter-random') {
-        filteredPhotos = photosArray.filter(function (it) {
-          return it;
-        });
+        filteredPhotos = getRandomPhotosArray(Array.from(photosArray));
+        filteredPhotos.length = 10;
         console.log(filteredPhotos);
-        console.log(Math.floor(Math.random(10) * 10));
+        removePhotos();
+        return filteredPhotos;
       }
 
+      console.log(filteredPhotos);
+      removePhotos();
+      return filteredPhotos;
     };
 
     popularButton.addEventListener('click', filterClickHandler);
@@ -36,6 +54,8 @@
     discussedButton.addEventListener('click', filterClickHandler);
 
     filteringImages();
+    console.log(photosArray);
+    return photosArray;
   };
 
 })();

@@ -61,7 +61,8 @@
 
   window.preview = {
     bigPicture: bigPicture,
-    drawBigPicture: drawBigPicture
+    drawBigPicture: drawBigPicture,
+    removeChild: removeChild
   };
 
 })();

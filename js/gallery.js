@@ -64,10 +64,13 @@
 
   // Запрос данных с сервера;
   var successLoadHandler = function (photosArray) {
-    window.drawPhotos(photosArray);
+    // window.updatePhotos(photosArray);
+    // window.preview.removeChild(photo);
+
+    window.drawPhotos(window.updatePhotos(photosArray));
     markPhotos();
     addBigPhotoHandlers(photosArray);
-    window.updatePhotos(photosArray);
+
   };
 
   // Обработчики закрытия сообщения об ошибке загрузке / отправке данных;
