@@ -1,10 +1,16 @@
 'use strict';
 // filter.js — модуль, который выполняет фильтрацию изображений;
 (function () {
+  var PHOTOS_NUMBER = 10;
+
   var imageFilters = document.querySelector('.img-filters');
   var popularButton = imageFilters.querySelector('#filter-popular');
   var randomButton = imageFilters.querySelector('#filter-random');
   var discussedButton = imageFilters.querySelector('#filter-discussed');
+
+  var filteringImages = function () {
+    imageFilters.classList.remove('img-filters--inactive');
+  };
 
   var getRandomPhotosArray = function (photosArray) {
     var compareRandom = function () {
@@ -21,44 +27,40 @@
     }
   };
 
-  window.updatePhotos = function (photosArray) {
-    // Фильтрация изображений;
-    var filteringImages = function () {
-      imageFilters.classList.remove('img-filters--inactive');
-    };
+  var drawFilteredPhotos = function (photosArray) {
+    window.drawPhotos(photosArray);
+    window.gallery.markPhotos();
+    window.gallery.addBigPhotoHandlers(photosArray);
+  };
 
+  window.updatePhotos = function (photosArray) {
     var filterClickHandler = function (evt) {
       var filteredPhotos = photosArray;
       var activeButton = imageFilters.querySelector('.img-filters__button--active');
-      var target = evt.target;
-      var filter = evt.target.id;
       activeButton.classList.remove('img-filters__button--active');
 
-      target.classList.add('img-filters__button--active');
-
-      if (filter === 'filter-random') {
+      if (evt.target.id === 'filter-random') {
         filteredPhotos = getRandomPhotosArray(Array.from(photosArray));
-        filteredPhotos.length = 10;
-        console.log(filteredPhotos);
+        filteredPhotos.length = PHOTOS_NUMBER;
+
         removePhotos();
-        return filteredPhotos;
+        drawFilteredPhotos(filteredPhotos);
+
+        console.log(filteredPhotos);
+      } else {
+        removePhotos();
+        drawFilteredPhotos(filteredPhotos);
+
+        console.log(filteredPhotos);
       }
 
-      window.gallery.successLoadHandler(filteredPhotos);
-      removePhotos();
-      window.backend.load(window.gallery.successLoadHandler, window.gallery.errorLoadHandler);
-
-      console.log(filteredPhotos);
-      // return filteredPhotos;
+      evt.target.classList.add('img-filters__button--active');
     };
 
     popularButton.addEventListener('click', filterClickHandler);
     randomButton.addEventListener('click', filterClickHandler);
     discussedButton.addEventListener('click', filterClickHandler);
-
-    filteringImages();
-    console.log(photosArray);
-    return photosArray;
   };
 
+  filteringImages();
 })();

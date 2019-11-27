@@ -2,8 +2,6 @@
 // picture.js — модуль для отрисовки миниатюры;
 (function () {
 
-  var PHOTOS_NUMBER = 25;
-
   window.drawPhotos = function (photosArray) {
     var pictures = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();

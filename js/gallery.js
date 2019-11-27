@@ -64,13 +64,11 @@
 
   // Запрос данных с сервера;
   var successLoadHandler = function (photosArray) {
-    // window.updatePhotos(photosArray);
-    // window.preview.removeChild(photo);
-
-    window.drawPhotos(window.updatePhotos(photosArray));
+    window.drawPhotos(photosArray);
     markPhotos();
     addBigPhotoHandlers(photosArray);
 
+    window.updatePhotos(photosArray);
   };
 
   // Обработчики закрытия сообщения об ошибке загрузке / отправке данных;
@@ -136,6 +134,8 @@
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
     successLoadHandler: successLoadHandler,
-    errorLoadHandler: errorLoadHandler
+    errorLoadHandler: errorLoadHandler,
+    markPhotos: markPhotos,
+    addBigPhotoHandlers: addBigPhotoHandlers
   };
 })();
