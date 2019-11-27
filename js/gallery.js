@@ -135,6 +135,7 @@
   window.gallery = {
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
+    successLoadHandler: successLoadHandler,
     errorLoadHandler: errorLoadHandler
   };
 })();

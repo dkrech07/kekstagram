@@ -44,9 +44,12 @@
         return filteredPhotos;
       }
 
-      console.log(filteredPhotos);
+      window.gallery.successLoadHandler(filteredPhotos);
       removePhotos();
-      return filteredPhotos;
+      window.backend.load(window.gallery.successLoadHandler, window.gallery.errorLoadHandler);
+
+      console.log(filteredPhotos);
+      // return filteredPhotos;
     };
 
     popularButton.addEventListener('click', filterClickHandler);
