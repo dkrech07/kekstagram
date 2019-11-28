@@ -62,12 +62,15 @@
     photosContainer.addEventListener('keydown', photoEnterHandler);
   };
 
-  // Запрос данных с сервера;
-  var successLoadHandler = function (photosArray) {
+  var drawFilteredPhotos = function (photosArray) {
     window.drawPhotos(photosArray);
     markPhotos();
     addBigPhotoHandlers(photosArray);
+  };
 
+  // Запрос данных с сервера;
+  var successLoadHandler = function (photosArray) {
+    drawFilteredPhotos(photosArray);
     window.updatePhotos(photosArray);
   };
 
@@ -135,7 +138,6 @@
     ENTER_KEYCODE: ENTER_KEYCODE,
     successLoadHandler: successLoadHandler,
     errorLoadHandler: errorLoadHandler,
-    markPhotos: markPhotos,
-    addBigPhotoHandlers: addBigPhotoHandlers
+    drawFilteredPhotos: drawFilteredPhotos
   };
 })();

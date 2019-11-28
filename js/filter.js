@@ -27,30 +27,36 @@
     }
   };
 
-  var drawFilteredPhotos = function (photosArray) {
-    window.drawPhotos(photosArray);
-    window.gallery.markPhotos();
-    window.gallery.addBigPhotoHandlers(photosArray);
-  };
-
   window.updatePhotos = function (photosArray) {
     var filterClickHandler = function (evt) {
       var filteredPhotos = photosArray;
       var activeButton = imageFilters.querySelector('.img-filters__button--active');
       activeButton.classList.remove('img-filters__button--active');
 
+      if (evt.target.id === 'filter-popular') {
+        removePhotos();
+        window.gallery.drawFilteredPhotos(filteredPhotos);
+
+        console.log('filter-popular');
+        console.log(filteredPhotos);
+      }
+
       if (evt.target.id === 'filter-random') {
         filteredPhotos = getRandomPhotosArray(Array.from(photosArray));
         filteredPhotos.length = PHOTOS_NUMBER;
 
         removePhotos();
-        drawFilteredPhotos(filteredPhotos);
+        window.gallery.drawFilteredPhotos(filteredPhotos);
 
+        console.log('filter-random');
         console.log(filteredPhotos);
-      } else {
-        removePhotos();
-        drawFilteredPhotos(filteredPhotos);
+      }
 
+      if (evt.target.id === 'filter-discussed') {
+        removePhotos();
+        window.gallery.drawFilteredPhotos(filteredPhotos);
+
+        console.log('filter-discussed');
         console.log(filteredPhotos);
       }
 
