@@ -20,6 +20,14 @@
     return photosArray.sort(compareRandom);
   };
 
+  var getDecreasingPhotosArray = function (photosArray) {
+    var compareRandom = function () { // пока что тут случаынй вариант;
+      return Math.random() - 0.5; // пока что тут случаынй вариант;
+    };
+
+    return photosArray.sort(compareRandom);
+  };
+
   var removePhotos = function () {
     var photos = document.querySelectorAll('.picture');
     for (var i = 0; i < photos.length; i++) {
@@ -53,8 +61,10 @@
       }
 
       if (evt.target.id === 'filter-discussed') {
+        filteredPhotos = Array.from(photosArray);
+
         removePhotos();
-        window.gallery.drawFilteredPhotos(filteredPhotos);
+        window.gallery.drawFilteredPhotos(getDecreasingPhotosArray(filteredPhotos));
 
         console.log('filter-discussed');
         console.log(filteredPhotos);
