@@ -93,7 +93,7 @@
       discussed = true;
     }
 
-    window.backend.load(successLoadHandler, window.gallery.errorLoadHandler);
+    window.debounce(window.backend.load(successLoadHandler, window.gallery.errorLoadHandler));
   };
 
   popularButton.addEventListener('click', filterClickHandler);

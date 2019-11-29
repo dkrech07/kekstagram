@@ -1,19 +1,17 @@
 'use strict';
 // Файл debounce.js
 (function () {
-  var DEBOUNCE_INTERVAL = 10000000; // ms
-  var lastTimeout = null;
+  var DEBOUNCE_INTERVAL = 5000; // ms
 
   window.debounce = function (callback) {
+    var lastTimeout = null;
 
-    // if (lastTimeout) {
-    //   window.clearTimeout(lastTimeout);
-    // }
-    // lastTimeout = window.setTimeout(function () {
-    //     callback();
-    //     console.log('ok');
-    //   }, DEBOUNCE_INTERVAL);
-        console.log('ok');
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+        callback;
+      }, DEBOUNCE_INTERVAL);
   };
 
 })();
