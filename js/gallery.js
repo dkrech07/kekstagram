@@ -71,7 +71,6 @@
   // Запрос данных с сервера;
   var successLoadHandler = function (photosArray) {
     drawFilteredPhotos(photosArray);
-    window.updatePhotos(photosArray);
   };
 
   // Обработчики закрытия сообщения об ошибке загрузке / отправке данных;
@@ -136,7 +135,6 @@
   window.gallery = {
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
-    successLoadHandler: successLoadHandler,
     errorLoadHandler: errorLoadHandler,
     drawFilteredPhotos: drawFilteredPhotos
   };
