@@ -21,11 +21,12 @@
   };
 
   var getDecreasingPhotosArray = function (photosArray) {
-    photosArray.sort(function(a, b) {
-      return b.comments.length - a.comments.length;
-    });
 
-    return photosArray;
+    var compareRandom = function (a, b) {
+      return b.comments.length - a.comments.length;
+    };
+
+    return photosArray.sort(compareRandom);
   };
 
   var removePhotos = function () {
@@ -44,9 +45,6 @@
       if (evt.target.id === 'filter-popular') {
         removePhotos();
         window.gallery.drawFilteredPhotos(filteredPhotos);
-
-        console.log('filter-popular');
-        console.log(filteredPhotos);
       }
 
       if (evt.target.id === 'filter-random') {
@@ -55,19 +53,13 @@
 
         removePhotos();
         window.gallery.drawFilteredPhotos(filteredPhotos);
-
-        console.log('filter-random');
-        console.log(filteredPhotos);
       }
 
       if (evt.target.id === 'filter-discussed') {
-        filteredPhotos = Array.from(photosArray);
+        filteredPhotos = getDecreasingPhotosArray(Array.from(photosArray));
 
         removePhotos();
-        window.gallery.drawFilteredPhotos(getDecreasingPhotosArray(filteredPhotos));
-
-        console.log('filter-discussed');
-        console.log(filteredPhotos);
+        window.gallery.drawFilteredPhotos(filteredPhotos);
       }
 
       evt.target.classList.add('img-filters__button--active');
