@@ -21,11 +21,11 @@
   };
 
   var getDecreasingPhotosArray = function (photosArray) {
-    var compareRandom = function () { // пока что тут случаынй вариант;
-      return Math.random() - 0.5; // пока что тут случаынй вариант;
-    };
+    photosArray.sort(function(a, b) {
+      return b.comments.length - a.comments.length;
+    });
 
-    return photosArray.sort(compareRandom);
+    return photosArray;
   };
 
   var removePhotos = function () {
