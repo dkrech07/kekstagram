@@ -7,6 +7,10 @@
   var popularButton = imageFilters.querySelector('#filter-popular');
   var randomButton = imageFilters.querySelector('#filter-random');
   var discussedButton = imageFilters.querySelector('#filter-discussed');
+  var popular = false;
+  var random = false;
+  var discussed = false;
+  var lastTimeout = null;
 
   var filteringImages = function () {
     imageFilters.classList.remove('img-filters--inactive');
@@ -35,10 +39,6 @@
       photos[i].remove();
     }
   };
-
-  var popular = false;
-  var random = false;
-  var discussed = false;
 
   var updatePhotos = function (photosArray) {
 
@@ -86,7 +86,15 @@
       discussed = true;
     }
 
-    window.debounce(window.backend.load(updatePhotos, window.gallery.errorLoadHandler));
+    // window.debounce(window.backend.load(updatePhotos, window.gallery.errorLoadHandler));
+
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+
+    lastTimeout = window.setTimeout(function () {
+      window.backend.load(updatePhotos, window.gallery.errorLoadHandler);
+    }, 2000);
   };
 
   popularButton.addEventListener('click', filterClickHandler);
