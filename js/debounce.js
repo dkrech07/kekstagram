@@ -1,28 +1,19 @@
 'use strict';
 // Файл debounce.js
 (function () {
-  var DEBOUNCE_INTERVAL = 2000; // ms
+  var DEBOUNCE_INTERVAL = 500; // ms
 
   window.debounce = function (cb) {
     var lastTimeout = null;
 
     return function () {
+      var parameters = arguments;
       if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
+        clearTimeout(lastTimeout);
       }
-      lastTimeout = window.setTimeout(function () {
-        cb();
+      lastTimeout = setTimeout(function () {
+        cb.apply(null, parameters);
       }, DEBOUNCE_INTERVAL);
     };
   };
-
-  // var lastTimeout = null;
-  //
-  // if (lastTimeout) {
-  //   window.clearTimeout(lastTimeout);
-  // }
-  // lastTimeout = window.setTimeout(function () {
-  //   window.backend.load(updatePhotos, window.gallery.errorLoadHandler);
-  // }, 2000);
-
 })();
