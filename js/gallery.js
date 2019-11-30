@@ -68,11 +68,6 @@
     addBigPhotoHandlers(photosArray);
   };
 
-  // Запрос данных с сервера;
-  var successLoadHandler = function (photosArray) {
-    drawFilteredPhotos(photosArray);
-  };
-
   // Обработчики закрытия сообщения об ошибке загрузке / отправке данных;
   var addErrorMessageHandlers = function () {
     var errorMessage = document.querySelector('.error');
@@ -130,7 +125,7 @@
     addErrorMessageHandlers();
   };
 
-  window.backend.load(successLoadHandler, errorLoadHandler);
+  window.backend.load(drawFilteredPhotos, errorLoadHandler);
 
   window.gallery = {
     ESC_KEYCODE: ESC_KEYCODE,

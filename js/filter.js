@@ -42,34 +42,27 @@
 
   var updatePhotos = function (photosArray) {
 
-        var filteredPhotos = photosArray;
-
-        if (popular) {
-          removePhotos();
-          window.gallery.drawFilteredPhotos(filteredPhotos);
-        }
-
-        if (random) {
-          filteredPhotos = getRandomPhotosArray(Array.from(photosArray));
-          filteredPhotos.length = PHOTOS_NUMBER;
-
-          removePhotos();
-          window.gallery.drawFilteredPhotos(filteredPhotos);
-        }
-
-        if (discussed) {
-          filteredPhotos = getDecreasingPhotosArray(Array.from(photosArray));
-
-          removePhotos();
-          window.gallery.drawFilteredPhotos(filteredPhotos);
-        }
-    };
-
-
-  var successLoadHandler = function (photosArray) {
     var filteredPhotos = photosArray;
-      console.log('ok');
-      updatePhotos(photosArray);
+
+    if (popular) {
+      removePhotos();
+      window.gallery.drawFilteredPhotos(filteredPhotos);
+    }
+
+    if (random) {
+      filteredPhotos = getRandomPhotosArray(Array.from(photosArray));
+      filteredPhotos.length = PHOTOS_NUMBER;
+
+      removePhotos();
+      window.gallery.drawFilteredPhotos(filteredPhotos);
+    }
+
+    if (discussed) {
+      filteredPhotos = getDecreasingPhotosArray(Array.from(photosArray));
+
+      removePhotos();
+      window.gallery.drawFilteredPhotos(filteredPhotos);
+    }
   };
 
   var filterClickHandler = function (evt) {
@@ -93,7 +86,7 @@
       discussed = true;
     }
 
-    window.debounce(window.backend.load(successLoadHandler, window.gallery.errorLoadHandler));
+    window.debounce(window.backend.load(updatePhotos, window.gallery.errorLoadHandler));
   };
 
   popularButton.addEventListener('click', filterClickHandler);

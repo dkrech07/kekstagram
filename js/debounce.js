@@ -14,4 +14,13 @@
       }, DEBOUNCE_INTERVAL);
   };
 
+  // var lastTimeout = null;
+  //
+  // if (lastTimeout) {
+  //   window.clearTimeout(lastTimeout);
+  // }
+  // lastTimeout = window.setTimeout(function () {
+  //   window.backend.load(updatePhotos, window.gallery.errorLoadHandler);
+  // }, 2000);
+
 })();
