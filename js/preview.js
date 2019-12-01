@@ -17,17 +17,16 @@
     commentsLoader.classList.add('visually-hidden');
   };
 
-  var drawBigPicture = function (photosArray, number) {
+  var drawBigPicture = function (photosArray, photoId) {
     window.preview.bigPicture.classList.remove('hidden');
-    var element = photosArray[number];
+    var element = photosArray[photoId];
 
-    drawPhotoInformation(number, element);
-    drawCommentInformation(number, element);
+    drawPhotoInformation(element);
 
     hideBigPhotoElements();
   };
 
-  var drawPhotoInformation = function (number, element) {
+  var drawPhotoInformation = function (element) {
     var image = window.preview.bigPicture.querySelector('.big-picture__img img');
     image.src = element.url;
 
@@ -41,7 +40,7 @@
     descriptionPhoto.textContent = element.description;
   };
 
-  var drawCommentInformation = function (number, element) {
+  var drawCommentInformation = function (element) {
     var socialComments = window.preview.bigPicture.querySelector('.social__comments');
     var template = socialComments.querySelector('.social__comment');
     var fragment = document.createDocumentFragment();
@@ -62,7 +61,8 @@
   window.preview = {
     bigPicture: bigPicture,
     drawBigPicture: drawBigPicture,
-    removeChild: removeChild
+    removeChild: removeChild,
+    drawCommentInformation: drawCommentInformation
   };
 
 })();

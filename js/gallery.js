@@ -33,7 +33,22 @@
 
   var addPhotoHandle = function (photosArray, photoId) {
     if (photoId || photoId === 0) {
+
+      var commentsNumber = photosArray[photoId].comments.length;
+      var loadButton = window.preview.bigPicture.querySelector('.social__comments-loader');
+
       window.preview.drawBigPicture(photosArray, photoId);
+      window.preview.drawCommentInformation(photosArray[photoId]);
+
+      // if (commentsNumber > 5) {
+      //   window.preview.drawBigPicture(photosArray, photoId);
+      //   window.preview.drawCommentInformation(photosArray[photoId]);
+      //   loadButton.classList.remove('visually-hidden');
+      //   console.log(photosArray[photoId]);
+      // } else {
+      //   window.preview.drawBigPicture(photosArray, photoId);
+      //   window.preview.drawCommentInformation(photosArray[photoId]);
+      // }
 
       closeBigPictureButton.addEventListener('click', bigPictureCloseHandler);
       document.addEventListener('keydown', bigPictureEscHandler);
