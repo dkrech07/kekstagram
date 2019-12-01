@@ -36,19 +36,34 @@
 
       var commentsNumber = photosArray[photoId].comments.length;
       var loadButton = window.preview.bigPicture.querySelector('.social__comments-loader');
-
+      var commentsList = Array.from(photosArray[photoId].comments);
+      var i = 5;
       window.preview.drawBigPicture(photosArray, photoId);
-      window.preview.drawCommentInformation(photosArray[photoId]);
 
-      // if (commentsNumber > 5) {
-      //   window.preview.drawBigPicture(photosArray, photoId);
-      //   window.preview.drawCommentInformation(photosArray[photoId]);
-      //   loadButton.classList.remove('visually-hidden');
-      //   console.log(photosArray[photoId]);
-      // } else {
-      //   window.preview.drawBigPicture(photosArray, photoId);
-      //   window.preview.drawCommentInformation(photosArray[photoId]);
-      // }
+      if (commentsNumber > 5) {
+        loadButton.classList.remove('visually-hidden');
+        commentsList.length = commentsList.length - (commentsList.length - 5);
+        window.preview.drawCommentInformation(commentsList);
+      } else {
+        window.preview.drawCommentInformation(commentsList);
+      }
+
+      var loadButtonClickHandler = function (evt) {
+        evt.preventDefault();
+        var newCommentsList = Array.from(photosArray[photoId].comments);
+        i += 5;
+        newCommentsList.length = commentsList.length - (commentsList.length - i);
+
+        if (newCommentsList.length <= photosArray[photoId].comments.length) {
+          window.preview.drawCommentInformation(newCommentsList);
+        } else {
+          newCommentsList = Array.from(photosArray[photoId].comments);
+          window.preview.drawCommentInformation(newCommentsList);
+          loadButton.removeEventListener('click', loadButtonClickHandler);
+          loadButton.classList.add('visually-hidden');
+        }
+      };
+      loadButton.addEventListener('click', loadButtonClickHandler);
 
       closeBigPictureButton.addEventListener('click', bigPictureCloseHandler);
       document.addEventListener('keydown', bigPictureEscHandler);

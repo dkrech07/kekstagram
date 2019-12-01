@@ -40,19 +40,19 @@
     descriptionPhoto.textContent = element.description;
   };
 
-  var drawCommentInformation = function (element) {
+  var drawCommentInformation = function (commentsList) {
     var socialComments = window.preview.bigPicture.querySelector('.social__comments');
     var template = socialComments.querySelector('.social__comment');
     var fragment = document.createDocumentFragment();
 
     removeChild(socialComments);
-    for (var i = 0; i < element.comments.length; i++) {
+    for (var i = 0; i < commentsList.length; i++) {
       var comment = template.cloneNode(true);
       var commentPhoto = comment.querySelector('.social__picture');
       var commentMessage = comment.querySelector('.social__text');
-      commentPhoto.src = element.comments[i].avatar;
-      commentPhoto.alt = element.comments[i].name;
-      commentMessage.textContent = element.comments[i].message;
+      commentPhoto.src = commentsList[i].avatar;
+      commentPhoto.alt = commentsList[i].name;
+      commentMessage.textContent = commentsList[i].message;
       fragment.appendChild(comment);
     }
     socialComments.appendChild(fragment);
