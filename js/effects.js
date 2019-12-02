@@ -130,7 +130,8 @@
     scaleBiggerClickHandler: scaleBiggerClickHandler,
     levelLineClickHandler: levelLineClickHandler,
     pinMoveHandler: pinMoveHandler,
-    getScaleDefault: getScaleDefault
+    getScaleDefault: getScaleDefault,
+    uploadImage: uploadImage
   };
 
   var checkLevelEffect = function (valueX) {

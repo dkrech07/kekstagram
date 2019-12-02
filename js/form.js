@@ -2,7 +2,7 @@
 // form.js — модуль, который работает с формой редактирования изображения.
 (function () {
 
-  var uploadButton = document.querySelector('#upload-file');
+  window.uploadButton = document.querySelector('.img-upload__start input[type=file]');
   var closeFormButton = window.effects.imageForm.querySelector('.img-upload__cancel');
 
   var scaleControlSmaller = window.effects.imageForm.querySelector('.scale__control--smaller');
@@ -17,7 +17,7 @@
   var resetUploadForm = function () {
     window.effects.getScaleDefault();
     window.effects.getEffectDefault();
-    uploadButton.value = null;
+    window.uploadButton.value = null;
     window.message.uploadForm.reset();
     window.effects.effectLevelSlider.classList.add('hidden');
   };
@@ -34,7 +34,7 @@
     closeFormButton.removeEventListener('click', removeChangeHandler);
     document.removeEventListener('keydown', closeFormEscHandler);
     resetUploadForm();
-    uploadButton.addEventListener('change', uploadChangeHandler);
+    window.uploadButton.addEventListener('change', uploadChangeHandler);
   };
 
   var uploadChangeHandler = function () {
@@ -51,7 +51,7 @@
     document.addEventListener('keydown', closeFormEscHandler);
     window.effects.getScaleDefault();
     window.effects.getEffectDefault();
-    uploadButton.removeEventListener('change', uploadChangeHandler);
+    window.uploadButton.removeEventListener('change', uploadChangeHandler);
   };
 
   // Сообщение об успешной отправке данных на сервер;
@@ -116,6 +116,6 @@
     evt.preventDefault();
   });
 
-  uploadButton.addEventListener('change', uploadChangeHandler);
+  window.uploadButton.addEventListener('change', uploadChangeHandler);
 
 })();
