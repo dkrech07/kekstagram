@@ -6,6 +6,8 @@
   var ENTER_KEYCODE = 13;
   var DEFAULT_COMMENTS_NUMBER = 5;
 
+  var photoDisplayStep = 5;
+
   var closeBigPictureButton = window.preview.bigPicture.querySelector('.big-picture__cancel');
   var photosContainer = document.querySelector('.pictures');
   var loadButton = window.preview.bigPicture.querySelector('.social__comments-loader');
@@ -43,15 +45,15 @@
 
       if (commentsNumber > DEFAULT_COMMENTS_NUMBER) {
         loadButton.classList.remove('visually-hidden');
-        commentsList.length = commentsList.length - (commentsList.length - DEFAULT_COMMENTS_NUMBER);
+        commentsList.length = DEFAULT_COMMENTS_NUMBER;
         window.preview.drawCommentInformation(commentsList);
       } else {
         window.preview.drawCommentInformation(commentsList);
       }
 
-      var photoDisplayStep = DEFAULT_COMMENTS_NUMBER;
       var loadButtonClickHandler = function (evt) {
         evt.preventDefault();
+
         var newCommentsList = Array.from(photosArray[photoId].comments);
         photoDisplayStep += DEFAULT_COMMENTS_NUMBER;
         newCommentsList.length = commentsList.length - (commentsList.length - photoDisplayStep);
@@ -65,6 +67,7 @@
           loadButton.classList.add('visually-hidden');
         }
       };
+
       loadButton.addEventListener('click', loadButtonClickHandler);
 
       closeBigPictureButton.addEventListener('click', bigPictureCloseHandler);
