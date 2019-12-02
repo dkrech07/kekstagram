@@ -14,6 +14,7 @@
   var hashtagsErrorMessage = '';
 
   window.message = {
+    uploadForm: uploadForm,
     addHashtagsHandlers: function () {
       hashtagsInput.addEventListener('change', hashtagsInputChange);
       hashtagsInput.addEventListener('keydown', function (evt) {

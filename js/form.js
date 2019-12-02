@@ -2,11 +2,11 @@
 // form.js — модуль, который работает с формой редактирования изображения.
 (function () {
 
-  var uploadButton = document.querySelector('#upload-file');
-  var closeFormButton = window.data.imageForm.querySelector('.img-upload__cancel');
+  window.uploadButton = document.querySelector('.img-upload__start input[type=file]');
+  var closeFormButton = window.effects.imageForm.querySelector('.img-upload__cancel');
 
-  var scaleControlSmaller = window.data.imageForm.querySelector('.scale__control--smaller');
-  var scaleControlBigger = window.data.imageForm.querySelector('.scale__control--bigger');
+  var scaleControlSmaller = window.effects.imageForm.querySelector('.scale__control--smaller');
+  var scaleControlBigger = window.effects.imageForm.querySelector('.scale__control--bigger');
 
   var closeFormEscHandler = function (evt) {
     if (evt.keyCode === window.gallery.ESC_KEYCODE) {
@@ -14,8 +14,16 @@
     }
   };
 
+  var resetUploadForm = function () {
+    window.effects.getScaleDefault();
+    window.effects.getEffectDefault();
+    window.uploadButton.value = null;
+    window.message.uploadForm.reset();
+    window.effects.effectLevelSlider.classList.add('hidden');
+  };
+
   var removeChangeHandler = function () {
-    window.data.imageForm.classList.add('hidden');
+    window.effects.imageForm.classList.add('hidden');
     window.message.removeCommentHandlers();
     window.message.removeHashtagsHandlers();
     window.effects.removeEffectHandlers();
@@ -25,11 +33,13 @@
     window.effects.effectLevelLine.removeEventListener('mouseup', window.effects.levelLineClickHandler);
     closeFormButton.removeEventListener('click', removeChangeHandler);
     document.removeEventListener('keydown', closeFormEscHandler);
-    uploadButton.value = null;
+    resetUploadForm();
+    window.uploadButton.addEventListener('change', uploadChangeHandler);
   };
 
   var uploadChangeHandler = function () {
-    window.data.imageForm.classList.remove('hidden');
+    window.effects.imageForm.classList.remove('hidden');
+    window.effects.effectLevelSlider.classList.add('hidden');
     window.message.addCommentHandlers();
     window.message.addHashtagsHandlers();
     window.effects.addEffectHandlers();
@@ -39,10 +49,73 @@
     window.effects.effectLevelLine.addEventListener('mouseup', window.effects.levelLineClickHandler);
     closeFormButton.addEventListener('click', removeChangeHandler);
     document.addEventListener('keydown', closeFormEscHandler);
+    window.effects.getScaleDefault();
+    window.effects.getEffectDefault();
+    window.uploadButton.removeEventListener('change', uploadChangeHandler);
   };
 
-  window.effects.getEffectDefault();
-  window.effects.effectLevelSlider.classList.add('hidden');
-  uploadButton.addEventListener('change', uploadChangeHandler);
+  // Сообщение об успешной отправке данных на сервер;
+  var generateSuccessMessage = function () {
+    var template = document.querySelector('#success').content.querySelector('.success');
+    var element = template.cloneNode(true);
+
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(element);
+
+    var main = document.querySelector('main');
+    main.appendChild(fragment);
+  };
+
+  // Обработчики закрытия сообщения о успешной отправке данных на сервер;
+  var addSuccessMessageHandlers = function () {
+    var successMessage = document.querySelector('.success');
+    var successButton = successMessage.querySelector('.success__button');
+
+    var successMessageClickHandler = function () {
+      successMessage.remove();
+      reomveMessageButtonHandlers();
+    };
+
+    var messageButtonEscHandler = function (evt) {
+      if (evt.keyCode === window.gallery.ESC_KEYCODE) {
+        successMessageClickHandler();
+      }
+    };
+
+    var windowClickHandler = function (evt) {
+      if (evt.target.className === 'success') {
+        successMessageClickHandler();
+      }
+    };
+
+    successButton.addEventListener('click', successMessageClickHandler);
+    document.addEventListener('keydown', messageButtonEscHandler);
+    document.addEventListener('click', windowClickHandler);
+
+    var reomveMessageButtonHandlers = function () {
+      successButton.removeEventListener('click', successMessageClickHandler);
+      document.removeEventListener('keydown', messageButtonEscHandler);
+      document.removeEventListener('click', windowClickHandler);
+    };
+  };
+
+  // Отправка данных на сервер;
+  var successUploadHandler = function () {
+    removeChangeHandler();
+    generateSuccessMessage();
+    addSuccessMessageHandlers();
+  };
+
+  var errorUploadHander = function () {
+    window.gallery.errorLoadHandler();
+    removeChangeHandler();
+  };
+
+  window.message.uploadForm.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(window.message.uploadForm), successUploadHandler, errorUploadHander);
+    evt.preventDefault();
+  });
+
+  window.uploadButton.addEventListener('change', uploadChangeHandler);
 
 })();
