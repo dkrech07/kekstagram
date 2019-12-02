@@ -53,7 +53,7 @@
       var loadButtonClickHandler = function (evt) {
         evt.preventDefault();
         var newCommentsList = Array.from(photosArray[photoId].comments);
-        photoDisplayStep += 5;
+        photoDisplayStep += DEFAULT_COMMENTS_NUMBER;
         newCommentsList.length = commentsList.length - (commentsList.length - photoDisplayStep);
 
         if (newCommentsList.length < photosArray[photoId].comments.length) {
