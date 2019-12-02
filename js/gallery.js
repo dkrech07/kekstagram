@@ -4,9 +4,11 @@
 
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var DEFAULT_COMMENTS_NUMBER = 5;
 
   var closeBigPictureButton = window.preview.bigPicture.querySelector('.big-picture__cancel');
   var photosContainer = document.querySelector('.pictures');
+  var loadButton = window.preview.bigPicture.querySelector('.social__comments-loader');
 
   var markPhotos = function () {
     var allPhotos = photosContainer.querySelectorAll('.picture');
@@ -35,26 +37,26 @@
     if (photoId || photoId === 0) {
 
       var commentsNumber = photosArray[photoId].comments.length;
-      var loadButton = window.preview.bigPicture.querySelector('.social__comments-loader');
       var commentsList = Array.from(photosArray[photoId].comments);
-      var i = 5;
+
       window.preview.drawBigPicture(photosArray, photoId);
 
-      if (commentsNumber > 5) {
+      if (commentsNumber > DEFAULT_COMMENTS_NUMBER) {
         loadButton.classList.remove('visually-hidden');
-        commentsList.length = commentsList.length - (commentsList.length - 5);
+        commentsList.length = commentsList.length - (commentsList.length - DEFAULT_COMMENTS_NUMBER);
         window.preview.drawCommentInformation(commentsList);
       } else {
         window.preview.drawCommentInformation(commentsList);
       }
 
+      var photoDisplayStep = DEFAULT_COMMENTS_NUMBER;
       var loadButtonClickHandler = function (evt) {
         evt.preventDefault();
         var newCommentsList = Array.from(photosArray[photoId].comments);
-        i += 5;
-        newCommentsList.length = commentsList.length - (commentsList.length - i);
+        photoDisplayStep += 5;
+        newCommentsList.length = commentsList.length - (commentsList.length - photoDisplayStep);
 
-        if (newCommentsList.length <= photosArray[photoId].comments.length) {
+        if (newCommentsList.length < photosArray[photoId].comments.length) {
           window.preview.drawCommentInformation(newCommentsList);
         } else {
           newCommentsList = Array.from(photosArray[photoId].comments);
