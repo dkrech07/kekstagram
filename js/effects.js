@@ -22,6 +22,7 @@
     lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
     uploadImage.style.filter = null;
     uploadImage.classList = '';
+    effectLevelValue.value = MAX_EFFECT_LEVEL;
     changeEffectLevel(MAX_EFFECT_LEVEL);
   };
 
