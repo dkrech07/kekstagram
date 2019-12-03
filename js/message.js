@@ -91,6 +91,7 @@
   var validateFormComment = function (target) {
     if (target.length > MAX_COMMENT_LENGTH) {
       formCommentInput.setCustomValidity('Длина комментария не может составлять больше 140 символов');
+      formCommentInput.style.borderColor = ALERT_COLOR;
     } else {
       formCommentInput.setCustomValidity('');
     }
