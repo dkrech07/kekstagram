@@ -53,18 +53,19 @@
       var loadButtonClickHandler = function (evt) {
         evt.preventDefault();
 
-        var newCommentsList = Array.from(photosArray[photoId].comments);
         photoDisplayStep += DEFAULT_COMMENTS_NUMBER;
+        var newCommentsList = Array.from(photosArray[photoId].comments);
         newCommentsList.length = commentsList.length - (commentsList.length - photoDisplayStep);
 
-        if (newCommentsList.length < photosArray[photoId].comments.length) {
-          window.preview.drawCommentInformation(newCommentsList);
-        } else {
+        if (newCommentsList.length > photosArray[photoId].comments.length) {
           newCommentsList = Array.from(photosArray[photoId].comments);
           window.preview.drawCommentInformation(newCommentsList);
           loadButton.removeEventListener('click', loadButtonClickHandler);
           loadButton.classList.add('visually-hidden');
         }
+
+        window.preview.drawCommentInformation(newCommentsList);
+
       };
 
       window.preview.drawBigPicture(photosArray, photoId);
