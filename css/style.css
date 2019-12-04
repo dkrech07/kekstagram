@@ -915,7 +915,8 @@ main {
   color: #e90000;
 }
 
-.likes-count::before {
+.likes-count::before,
+.liked::before {
   content: "";
   position: absolute;
 
@@ -928,8 +929,15 @@ main {
   background-image: url("../img/sprite.png");
   background-repeat: no-repeat;
 
-  background-position: -5px -56px;
   opacity: 0.5;
+}
+
+.likes-count::before {
+  background-position: -5px -56px;
+}
+
+.liked::before {
+  background-position: -5px -81px;
 }
 
 .likes-count:hover::before,
