@@ -10,20 +10,11 @@
     }
   };
 
-  var hideBigPhotoElements = function () {
-    var commentsCounter = window.preview.bigPicture.querySelector('.social__comment-count');
-    var commentsLoader = window.preview.bigPicture.querySelector('.comments-loader');
-    commentsCounter.classList.add('visually-hidden');
-    commentsLoader.classList.add('visually-hidden');
-  };
-
   var drawBigPicture = function (photosArray, photoId) {
     window.preview.bigPicture.classList.remove('hidden');
     var element = photosArray[photoId];
 
     drawPhotoInformation(element);
-
-    hideBigPhotoElements();
   };
 
   var drawPhotoInformation = function (element) {
@@ -32,9 +23,6 @@
 
     var likesCount = window.preview.bigPicture.querySelector('.likes-count');
     likesCount.textContent = element.likes;
-
-    var commentsCount = window.preview.bigPicture.querySelector('.comments-count');
-    commentsCount.textContent = element.comments.length;
 
     var descriptionPhoto = window.preview.bigPicture.querySelector('.social__caption');
     descriptionPhoto.textContent = element.description;

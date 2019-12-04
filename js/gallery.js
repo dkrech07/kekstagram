@@ -17,6 +17,30 @@
     }
   };
 
+  var countCommentsNumber = function (photosArray, photoId, number) {
+
+    var socialHeader = window.preview.bigPicture.querySelector('.social__header');
+    var commentsElement = window.preview.bigPicture.querySelector('.comments-count');
+    var counterElement = window.preview.bigPicture.querySelector('.social__comment-count');
+    var fragment = document.createDocumentFragment();
+
+    var currentValue = commentsElement.cloneNode();
+    currentValue.textContent = number + ' из ';
+
+    var allComments = commentsElement.cloneNode();
+    allComments.textContent = photosArray[photoId].comments.length + ' комментариев'
+
+    var counter = counterElement.cloneNode();
+
+    counter.appendChild(currentValue);
+    counter.appendChild(allComments);
+
+    fragment.appendChild(counter);
+
+    counterElement.remove();
+    socialHeader.after(fragment);
+  };
+
   var addPhotoHandle = function (photosArray, photoId) {
     if (photoId || photoId === 0) {
 
@@ -29,8 +53,11 @@
           loadButton.classList.remove('visually-hidden');
           commentsList.length = DEFAULT_COMMENTS_NUMBER;
           window.preview.drawCommentInformation(commentsList);
+          countCommentsNumber(photosArray, photoId, DEFAULT_COMMENTS_NUMBER);
         } else {
+          loadButton.classList.add('visually-hidden');
           window.preview.drawCommentInformation(commentsList);
+          countCommentsNumber(photosArray, photoId, commentsNumber);
         }
       };
 
@@ -57,10 +84,12 @@
         photoDisplayStep += DEFAULT_COMMENTS_NUMBER;
         var newCommentsList = Array.from(photosArray[photoId].comments);
         newCommentsList.length = commentsList.length - (commentsList.length - photoDisplayStep);
+        countCommentsNumber(photosArray, photoId, newCommentsList.length);
 
         if (newCommentsList.length > photosArray[photoId].comments.length) {
           newCommentsList = Array.from(photosArray[photoId].comments);
           window.preview.drawCommentInformation(newCommentsList);
+          countCommentsNumber(photosArray, photoId, newCommentsList.length);
           loadButton.removeEventListener('click', loadButtonClickHandler);
           loadButton.classList.add('visually-hidden');
         }
