@@ -56,6 +56,12 @@
         }
       };
 
+      var likesEnterHandler = function (evt) {
+        if (evt.keyCode === ENTER_KEYCODE) {
+          likesClickHandler();
+        }
+      };
+
       var displayLoadButton = function () {
         if (commentsNumber > DEFAULT_COMMENTS_NUMBER) {
           loadButton.classList.remove('visually-hidden');
@@ -70,10 +76,16 @@
       };
 
       var removeBigPictureListeners = function () {
+        if (likesCount.classList.contains('liked')) {
+          likesCount.classList.remove('liked');
+          likesCount.textContent = numberLikes;
+        }
+
         closeBigPictureButton.removeEventListener('click', bigPictureCloseHandler);
         document.removeEventListener('keydown', bigPictureEscHandler);
         loadButton.removeEventListener('click', loadButtonClickHandler);
         likesCount.removeEventListener('click', likesClickHandler);
+        likesCount.removeEventListener('keydown', likesEnterHandler);
       };
 
       var bigPictureCloseHandler = function () {
@@ -113,6 +125,7 @@
       document.addEventListener('keydown', bigPictureEscHandler);
       loadButton.addEventListener('click', loadButtonClickHandler);
       likesCount.addEventListener('click', likesClickHandler);
+      likesCount.addEventListener('keydown', likesEnterHandler);
     }
   };
 
