@@ -21,9 +21,6 @@
     var image = window.preview.bigPicture.querySelector('.big-picture__img img');
     image.src = element.url;
 
-    var likesCount = window.preview.bigPicture.querySelector('.likes-count');
-    likesCount.textContent = element.likes;
-
     var descriptionPhoto = window.preview.bigPicture.querySelector('.social__caption');
     descriptionPhoto.textContent = element.description;
   };
