@@ -25,16 +25,10 @@
     var fragment = document.createDocumentFragment();
 
     var currentValue = commentsElement.cloneNode();
-    currentValue.textContent = number + ' из ';
-
-    var allComments = commentsElement.cloneNode();
-    allComments.textContent = photosArray[photoId].comments.length + ' комментариев'
+    currentValue.textContent = number + ' из ' + photosArray[photoId].comments.length + ' комментариев';
 
     var counter = counterElement.cloneNode();
-
     counter.appendChild(currentValue);
-    counter.appendChild(allComments);
-
     fragment.appendChild(counter);
 
     counterElement.remove();
