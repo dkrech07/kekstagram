@@ -22,19 +22,20 @@
     lineDepth.style.width = MAX_EFFECT_LEVEL + '%';
     uploadImage.style.filter = null;
     uploadImage.classList = '';
+    effectLevelValue.value = MAX_EFFECT_LEVEL;
     changeEffectLevel(MAX_EFFECT_LEVEL);
   };
 
   var addEffectHandlers = function () {
-    for (var i = 0; i < effectTypeButtons.length; i++) {
-      effectTypeButtons[i].addEventListener('click', effectClickHandler);
-    }
+    effectTypeButtons.forEach(function (it) {
+      it.addEventListener('click', effectClickHandler);
+    });
   };
 
   var removeEffectHandlers = function () {
-    for (var i = 0; i < effectTypeButtons.length; i++) {
-      effectTypeButtons[i].removeEventListener('click', effectClickHandler);
-    }
+    effectTypeButtons.forEach(function (it) {
+      it.removeEventListener('click', effectClickHandler);
+    });
   };
 
   var scaleSmallerClickHandler = function () {

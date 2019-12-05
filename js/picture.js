@@ -6,10 +6,10 @@
     var pictures = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < photosArray.length; i++) {
-      var photo = getPhoto(photosArray[i]);
+    photosArray.forEach(function (it) {
+      var photo = getPhoto(it);
       fragment.appendChild(photo);
-    }
+    });
 
     pictures.appendChild(fragment);
   };

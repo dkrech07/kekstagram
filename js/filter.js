@@ -34,9 +34,9 @@
 
   var removePhotos = function () {
     var photos = document.querySelectorAll('.picture');
-    for (var i = 0; i < photos.length; i++) {
-      photos[i].remove();
-    }
+    photos.forEach(function (it) {
+      it.remove();
+    });
   };
 
   var updatePhotos = function (photosArray) {
