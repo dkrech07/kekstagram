@@ -12,9 +12,9 @@
 
   var markPhotos = function () {
     var allPhotos = photosContainer.querySelectorAll('.picture');
-    for (var i = 0; i < allPhotos.length; i++) {
-      allPhotos[i].id = i;
-    }
+    allPhotos.forEach(function (it, index) {
+      it.id = index;
+    });
   };
 
   var countCommentsNumber = function (photosArray, photoId, number) {

@@ -31,15 +31,17 @@
     var fragment = document.createDocumentFragment();
 
     removeChild(socialComments);
-    for (var i = 0; i < commentsList.length; i++) {
+
+    commentsList.forEach(function (it) {
       var comment = template.cloneNode(true);
       var commentPhoto = comment.querySelector('.social__picture');
       var commentMessage = comment.querySelector('.social__text');
-      commentPhoto.src = commentsList[i].avatar;
-      commentPhoto.alt = commentsList[i].name;
-      commentMessage.textContent = commentsList[i].message;
+      commentPhoto.src = it.avatar;
+      commentPhoto.alt = it.name;
+      commentMessage.textContent = it.message;
       fragment.appendChild(comment);
-    }
+    });
+
     socialComments.appendChild(fragment);
   };
 
