@@ -107,7 +107,7 @@
         newCommentsList.length = commentsList.length - (commentsList.length - photoDisplayStep);
         countCommentsNumber(photosArray, photoId, newCommentsList.length);
 
-        if (newCommentsList.length > photosArray[photoId].comments.length) {
+        if (newCommentsList.length >= photosArray[photoId].comments.length) {
           newCommentsList = Array.from(photosArray[photoId].comments);
           window.preview.drawCommentInformation(newCommentsList);
           countCommentsNumber(photosArray, photoId, newCommentsList.length);
